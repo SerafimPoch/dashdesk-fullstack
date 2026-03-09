@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ -f frontend/package.json ]; then
+  echo "husky: running frontend lint"
+  (cd frontend && yarn lint)
+fi
+
+if [ -f backend/package.json ]; then
+  echo "husky: running backend lint"
+  (cd backend && yarn lint)
+fi
