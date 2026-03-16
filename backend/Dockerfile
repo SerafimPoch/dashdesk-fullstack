@@ -3,8 +3,6 @@ ARG NODE_VERSION=24.14.0
 
 FROM node:${NODE_VERSION}-alpine AS base
 WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV HUSKY=0
 RUN corepack enable && corepack prepare yarn@1.22.18 --activate
 
 FROM base AS deps
@@ -23,19 +21,16 @@ RUN yarn install --production --frozen-lockfile \
 
 FROM base AS final
 ENV NODE_ENV=production
+ENV PORT=4000
 COPY package.json ./
-COPY next.config.ts ./next.config.ts
 COPY --from=prod-deps /app/node_modules ./node_modules
-COPY --from=build /app/.next ./.next
-COPY --from=build /app/public ./public
-EXPOSE 3000
-CMD ["yarn", "start"]
+COPY --from=build /app/dist ./dist
+EXPOSE 4000
+CMD ["yarn", "start:prod"]
 
-FROM base AS dev
+FROM deps AS dev
 ENV NODE_ENV=development
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile \
-  && yarn cache clean
+ENV PORT=4000
 COPY . .
-EXPOSE 3000
-CMD ["yarn", "dev"]
+EXPOSE 4000
+CMD ["yarn", "start:dev"]
