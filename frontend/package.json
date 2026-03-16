@@ -2,12 +2,13 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "yarn@1.22.18",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "prepare": "husky && git config core.hooksPath frontend/.husky/_"
+    "prepare": "sh -c 'if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then husky && git config core.hooksPath frontend/.husky/_; else echo \"Skipping husky: git repo not present\"; fi'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -1,4 +1,16 @@
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: final
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+    restart: unless-stopped
+
   frontend:
     build:
       context: ./frontend
@@ -8,4 +20,6 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
+    depends_on:
+      - backend
     restart: unless-stopped
