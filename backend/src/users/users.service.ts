@@ -1,37 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 interface UserData {
   name: string;
   email: string;
-  password: string;
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
+  passwordHash: string;
 }
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [
-    {
-      id: '1',
-      name: 'user-1',
-      email: 'serafimpoch@gmail.com',
-      password: '12345678',
-    },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
-  create(data: UserData) {
+  async create(userData: UserData) {
     const id = crypto.randomUUID();
-    this.users.push({ id, ...data });
+    const user = await this.prisma.user.create({
+      data: {
+        id,
+        email: userData.email,
+        name: userData.name,
+        passwordHash: userData.passwordHash,
+      },
+    });
 
-    return { id, ...data };
+    return user;
   }
 
-  findByEmail(email: string) {
-    return this.users.find((e) => e.email === email);
+  async findByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return user;
   }
 }
