@@ -3,53 +3,63 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { UsersService } from 'src/users/users.service';
+import argon2 from 'argon2';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UsersService) {}
+  constructor(
+    private readonly userService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  register(dto: RegisterDto) {
-    const user = this.userService.findByEmail(dto.email);
+  async register(dto: RegisterDto) {
+    const user = await this.userService.findByEmail(dto.email);
 
     if (user) {
       throw new ConflictException();
     }
 
-    this.userService.create(dto);
+    const passwordHash = await argon2.hash(dto.password);
+
+    const createdUser = await this.userService.create({
+      passwordHash,
+      ...dto,
+    });
 
     return {
-      message: `User ${dto.name} with ${dto.email} was successfully created`,
+      message: `User ${createdUser.name} with ${createdUser.email} was successfully created`,
     };
   }
 
-  login(dto: LoginDto) {
-    const user = this.userService.findByEmail(dto.email);
+  async login(dto: LoginDto) {
+    const user = await this.userService.findByEmail(dto.email);
 
     if (!user) {
       throw new UnauthorizedException();
     }
 
-    if (dto.password !== user.password) {
+    const isVerifiedPassword = await argon2.verify(
+      user.passwordHash,
+      dto.password,
+    );
+
+    if (!isVerifiedPassword) {
       throw new UnauthorizedException();
     }
 
+    const payload = { sub: user.id, email: user.email };
+    const accessToken = this.jwtService.sign(payload);
+
     return {
       message: 'User logged in successfully',
-      accessToken: 'fake-access-token',
+      accessToken,
       user: {
         email: user.email,
       },
-    };
-  }
-
-  me() {
-    return {
-      id: 1,
-      name: 'Demo User',
-      email: 'demo@example.com',
     };
   }
 }

@@ -1,4 +1,21 @@
 services:
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: dashdesk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dashdesk"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   backend:
     build:
       context: ./backend
@@ -6,9 +23,15 @@ services:
       target: final
     ports:
       - "4000:4000"
+    env_file:
+      - ./backend/.env
     environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/dashdesk?schema=public
       NODE_ENV: production
       PORT: 4000
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
 
   frontend:
@@ -23,3 +46,6 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+volumes:
+  postgres_data:

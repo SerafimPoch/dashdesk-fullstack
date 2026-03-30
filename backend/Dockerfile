@@ -3,6 +3,7 @@ ARG NODE_VERSION=24.14.0
 
 FROM node:${NODE_VERSION}-alpine AS base
 WORKDIR /app
+ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dashdesk?schema=public
 RUN corepack enable && corepack prepare yarn@1.22.18 --activate
 
 FROM base AS deps
@@ -12,7 +13,8 @@ RUN yarn install --frozen-lockfile \
 
 FROM deps AS build
 COPY . .
-RUN yarn build
+RUN yarn prisma generate \
+  && yarn build
 
 FROM base AS prod-deps
 COPY package.json yarn.lock ./
@@ -24,6 +26,8 @@ ENV NODE_ENV=production
 ENV PORT=4000
 COPY package.json ./
 COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=build /app/dist ./dist
 EXPOSE 4000
 CMD ["yarn", "start:prod"]
