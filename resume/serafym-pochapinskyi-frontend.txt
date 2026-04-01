@@ -1,0 +1,60 @@
+SERAFYM POCHAPYNSKYI
+Senior Frontend Developer
+Kyiv, Ukraine | +380678105698 | Telegram: @serafimpoch | serafimpoch@gmail.com
+LinkedIn: https://www.linkedin.com/in/serafym-pochapinskyi | GitHub: https://github.com/SerafimPoch
+
+SUMMARY
+Senior Frontend Developer with 7+ years of experience building product web applications with React
+and TypeScript across B2B SaaS, crypto, and outsourcing environments. Strong in complex UI flows,
+frontend architecture, performance optimization, testing, and cross-functional collaboration.
+Comfortable owning features from discovery to release and working directly with product and engineering teams in English.
+
+EXPERIENCE
+Senior Frontend Developer | Customertimes Ukraine, Kyiv | June 2024 - Present
+Startly is a B2B ITSM and PSA platform for service organizations.
+- Refactored a legacy React and TypeScript codebase by decomposing large components, removing dead
+  code, and expanding unit test coverage to improve maintainability and release safety.
+- Built ticket creation flows, interconnected data schemas, analytics widgets, drag-and-drop
+  tables, nested modal flows, and knowledge base integrations.
+- Integrated and displayed data from multiple product areas and external resources, shaping UI
+  behavior around backend-driven business rules and permissions.
+- Collaborated daily with U.S. product managers, QA, and backend engineers in English to
+  translate requirements into maintainable features.
+- Stack: TypeScript, React, MobX, Jest, Ant Design, Emotion, Chart.js, i18next, React Query,
+  Webpack, Axios, React Router, React Hook Form, Node.js, REST APIs
+
+Middle Frontend Developer | Ezil.me, Dubai | March 2021 - May 2024
+Crypto mining product | distributed team across frontend, Ruby and Rust backend, design, QA, support, and localization
+- Owned end-to-end frontend delivery and worked closely with backend engineers on API contracts,
+  wallet connections, and feature planning.
+- Implemented statistics dashboards, referral tables, withdrawal flows, wallet integrations, and
+  multilingual interfaces across 3 languages.
+- Improved frontend performance and maintainability through cleanup of legacy code and targeted
+  component optimization.
+- Mentored 2 junior developers, reviewed code, and supported backend-adjacent integrations for the
+  Avely staking product.
+- Stack: Next.js, React, TypeScript, Emotion, Chart.js, D3, Ethers, i18next, next-i18next, Jest,
+  React Query, Recharts, Redaxios
+
+Full Stack JS Developer | Mjolnir LLC, Kyiv | January 2019 - March 2021
+Outsourcing company for e-commerce and CMS projects | small delivery team of 7 developers and designers
+- Delivered fullstack features for e-commerce and CMS projects using React, Node.js, Express,
+  MySQL, and MongoDB, including work on the Nemo.Travel flight ticket platform.
+- Designed API endpoints, integrated relational databases, and built frontend and admin
+  interfaces for mid-sized client projects.
+- Worked directly with clients and company leadership to scope tasks, prioritize delivery, and
+  ship features in a small cross-functional team.
+- Stack: React, MobX, Redux, Node.js, Express, SQL, MySQL, MongoDB, Mongoose, HTML, CSS, REST API
+
+SKILLS
+Languages: TypeScript, JavaScript
+Frontend: React, Next.js, MobX, React Query, React Hook Form, React Router, HTML5, CSS3
+Backend: Node.js, Express, NestJS, REST APIs, API integrations
+Data: PostgreSQL, Prisma, MySQL, MongoDB, Mongoose
+Tooling: Jest, Webpack, Git, Axios, Ant Design, Emotion
+
+EDUCATION
+Kyiv National Linguistic University | Bachelor's degree | Sep 2014 - Jun 2018
+
+LANGUAGES
+English B2 | Ukrainian Native | Russian Native
