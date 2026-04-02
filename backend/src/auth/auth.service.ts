@@ -9,7 +9,6 @@ import { RegisterDto } from './dto/register.dto';
 import { UsersService } from 'src/users/users.service';
 import argon2 from 'argon2';
 import { SessionsService } from 'src/sessions/sessions.service';
-import { RefreshDto } from './dto/refresh.dto';
 
 @Injectable()
 export class AuthService {
@@ -78,8 +77,8 @@ export class AuthService {
     };
   }
 
-  async refresh(dto: RefreshDto) {
-    const session = await this.sessionService.verifyToken(dto.refreshToken);
+  async refresh(rT: string) {
+    const session = await this.sessionService.verifyToken(rT);
 
     if (!session) {
       throw new UnauthorizedException();
@@ -97,9 +96,23 @@ export class AuthService {
     };
 
     const accessToken = this.jwtService.sign(payload);
+    const refreshToken = `${session.id}.${crypto.randomUUID()}`;
+
+    await this.sessionService.rotateSession(session.id, refreshToken);
 
     return {
       accessToken,
+      refreshToken,
     };
+  }
+
+  async logout(refreshToken: string) {
+    const session = await this.sessionService.verifyToken(refreshToken);
+
+    if (!session) {
+      throw new UnauthorizedException();
+    }
+
+    await this.sessionService.deleteSession(session.id);
   }
 }

@@ -26,6 +26,12 @@ export class SessionsService {
     });
   }
 
+  async deleteSession(sessionId: string) {
+    await this.prisma.session.delete({
+      where: { id: sessionId },
+    });
+  }
+
   async verifyToken(refreshToken: string) {
     const sessionId = refreshToken.split('.')[0];
 
@@ -52,5 +58,18 @@ export class SessionsService {
     }
 
     return null;
+  }
+
+  async rotateSession(sessionId: string, refreshToken: string) {
+    const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
+    const tokenHash = await argon2.hash(refreshToken);
+
+    await this.prisma.session.update({
+      where: { id: sessionId },
+      data: {
+        tokenHash,
+        expiresAt,
+      },
+    });
   }
 }
