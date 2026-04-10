@@ -84,9 +84,10 @@ export class AuthController {
       throw new UnauthorizedException();
     }
 
-    const data = await this.auth.refresh(refreshToken);
+    const { refreshToken: nextRefreshToken, ...data } =
+      await this.auth.refresh(refreshToken);
 
-    response.cookie('refreshToken', data.refreshToken, {
+    response.cookie('refreshToken', nextRefreshToken, {
       httpOnly: true,
       sameSite: 'lax',
       secure: false,

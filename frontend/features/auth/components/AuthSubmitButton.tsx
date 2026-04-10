@@ -20,8 +20,8 @@ export function AuthSubmitButton({
     <Button
       type="submit"
       className={cn(
-        "h-10 w-full rounded-[10px] bg-primary text-base font-heading font-bold text-primary-foreground hover:bg-primary/90",
-        className
+        "h-10 w-full cursor-pointer rounded-[10px] bg-primary text-base font-heading font-bold text-primary-foreground hover:bg-primary/90",
+        className,
       )}
       disabled={disabled || loading}
       {...props}

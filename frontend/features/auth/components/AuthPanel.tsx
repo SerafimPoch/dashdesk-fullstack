@@ -7,33 +7,40 @@ import { Apple } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as v from "valibot";
 
-import { AuthSubmitButton } from "@/components/ui/AuthSubmitButton";
+import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { login } from "../api/auth-api";
+import type { LoginBody } from "../api/auth-api";
+import { useAuthStore } from "../model/auth-store";
 
 const signInSchema = v.object({
   email: v.pipe(v.string(), v.email("Enter a valid email address")),
-  password: v.pipe(v.string(), v.minLength(8, "Password must be at least 8 characters")),
+  password: v.pipe(
+    v.string(),
+    v.minLength(8, "Password must be at least 8 characters"),
+  ),
 });
 
-type SignInValues = v.InferInput<typeof signInSchema>;
-
 export function AuthPanel() {
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<SignInValues>({
+  } = useForm<LoginBody>({
     resolver: valibotResolver(signInSchema),
     defaultValues: {
-      email: "suryawigunaa@gmail.com",
-      password: "12345678",
+      email: "",
+      password: "",
     },
   });
 
-  const onSubmit = async (values: SignInValues) => {
-    await Promise.resolve(values);
+  const onSubmit = async (values: LoginBody) => {
+    const data = await login(values);
+    setAccessToken(data.accessToken);
   };
 
   return (
@@ -51,7 +58,13 @@ export function AuthPanel() {
           variant="secondary"
           className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
-          <Image alt="" aria-hidden="true" src="/google.svg" width={14} height={14} />
+          <Image
+            alt=""
+            aria-hidden="true"
+            src="/google.svg"
+            width={14}
+            height={14}
+          />
           <span className="ml-2 leading-[15px]">Sign in with Google</span>
         </Button>
         <Button
@@ -81,7 +94,9 @@ export function AuthPanel() {
               {...register("email")}
             />
             {errors.email ? (
-              <p className="mt-1 text-xs text-destructive">{errors.email.message}</p>
+              <p className="mt-1 text-xs text-destructive">
+                {errors.email.message}
+              </p>
             ) : null}
           </div>
 
@@ -100,17 +115,26 @@ export function AuthPanel() {
               {...register("password")}
             />
             {errors.password ? (
-              <p className="mt-1 text-xs text-destructive">{errors.password.message}</p>
+              <p className="mt-1 text-xs text-destructive">
+                {errors.password.message}
+              </p>
             ) : null}
           </div>
 
           <div className="mt-[21px]">
-            <Link className="text-base leading-[19px] text-[var(--link)] hover:underline" href="#">
+            <Link
+              className="text-base leading-[19px] text-[var(--link)] hover:underline"
+              href="#"
+            >
               Forgot password?
             </Link>
           </div>
 
-          <AuthSubmitButton className="mt-[20px]" loading={isSubmitting} loadingText="Signing in...">
+          <AuthSubmitButton
+            className="mt-[20px]"
+            loading={isSubmitting}
+            loadingText="Signing in..."
+          >
             Sign In
           </AuthSubmitButton>
         </form>

@@ -1,6 +1,6 @@
-import { PrismaService } from 'src/prisma/prisma.service';
 import argon2 from 'argon2';
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
 interface Session {
   sessionId: string;
