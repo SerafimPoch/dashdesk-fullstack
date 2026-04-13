@@ -6,14 +6,16 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Apple } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as v from "valibot";
+import { useRouter } from "next/navigation";
 
 import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { login } from "../api/auth-api";
+import { getMe, login } from "../api/auth-api";
 import type { LoginBody } from "../api/auth-api";
 import { useAuthStore } from "../model/auth-store";
+import { useAccountStore } from "@/features/account/model/account-store";
 
 const signInSchema = v.object({
   email: v.pipe(v.string(), v.email("Enter a valid email address")),
@@ -24,7 +26,12 @@ const signInSchema = v.object({
 });
 
 export function AuthPanel() {
+  const router = useRouter();
+
+  const clearCurrentUser = useAccountStore((state) => state.clearCurrentUser);
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const clearAccessToken = useAuthStore((state) => state.clearAccessToken);
+  const setCurrentUser = useAccountStore((state) => state.setCurrentUser);
 
   const {
     register,
@@ -39,8 +46,18 @@ export function AuthPanel() {
   });
 
   const onSubmit = async (values: LoginBody) => {
-    const data = await login(values);
-    setAccessToken(data.accessToken);
+    try {
+      const data = await login(values);
+      setAccessToken(data.accessToken);
+
+      const user = await getMe();
+      setCurrentUser(user);
+
+      router.push("/dashboard");
+    } catch {
+      clearCurrentUser();
+      clearAccessToken();
+    }
   };
 
   return (
@@ -76,7 +93,6 @@ export function AuthPanel() {
           <span className="ml-2 leading-[15px]">Sign in with Apple</span>
         </Button>
       </div>
-
       <div className="mt-[25px] rounded-[20px] bg-card px-[30px] py-[30px]">
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <div>

@@ -9,7 +9,6 @@ export default function Home() {
             Dash.
           </p>
         </aside>
-
         <section className="flex justify-center px-6 pt-16 pb-16 lg:items-start lg:justify-start lg:px-0 lg:pl-[244px] lg:pt-[260px]">
           <AuthPanel />
         </section>
