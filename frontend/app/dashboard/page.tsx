@@ -1,21 +1,7 @@
-"use client";
+import { ensureAuthenticated } from "@/features/auth/server/ensure-authenticated";
 
-import { useAccountStore } from "@/features/account/model/account-store";
-import { useAuthStore } from "@/features/auth/model/auth-store";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
-export default function DashboardPage() {
-  const router = useRouter();
-
-  const user = useAccountStore((state) => state.currentUser);
-  const isAuthInitialized = useAuthStore((state) => state.isAuthInitialized);
-
-  useEffect(() => {
-    if (!user && isAuthInitialized) {
-      router.replace("/");
-    }
-  }, [user, isAuthInitialized, router]);
+export default async function DashboardPage() {
+  await ensureAuthenticated();
 
   return <p>Dashboard page</p>;
 }

@@ -7,7 +7,6 @@ export interface LoginBody {
 
 interface LoginResponse {
   message: string;
-  accessToken: string;
   user: {
     email: string;
   };
@@ -16,10 +15,6 @@ interface LoginResponse {
 interface MeResponse {
   id: string;
   email: string;
-}
-
-interface RefreshResponse {
-  accessToken: string;
 }
 
 export const login = async (body: LoginBody): Promise<LoginResponse> => {
@@ -34,8 +29,6 @@ export const getMe = async (): Promise<MeResponse> => {
   return response.data;
 };
 
-export const refresh = async (): Promise<RefreshResponse> => {
-  const response = await apiClient.post<RefreshResponse>("/auth/refresh");
-
-  return response.data;
+export const refresh = async (): Promise<void> => {
+  await apiClient.post("/auth/refresh");
 };

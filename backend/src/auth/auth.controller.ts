@@ -13,6 +13,12 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import {
+  ACCESS_TOKEN_COOKIE,
+  ACCESS_TOKEN_COOKIE_CONFIG,
+  REFRESH_TOKEN_COOKIE,
+  REFRESH_TOKEN_COOKIE_CONFIG,
+} from './auth-cookie';
 
 type AuthenticatedRequest = Request & {
   user: {
@@ -22,9 +28,7 @@ type AuthenticatedRequest = Request & {
 };
 
 type RequestWithCookies = Request & {
-  cookies: {
-    refreshToken?: string;
-  };
+  cookies: Record<string, string | undefined>;
 };
 
 @Controller('auth')
@@ -41,13 +45,18 @@ export class AuthController {
     @Body() dto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const { refreshToken, ...data } = await this.auth.login(dto);
-    response.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: false,
-      path: '/',
-    });
+    const { refreshToken, accessToken, ...data } = await this.auth.login(dto);
+
+    response.cookie(
+      REFRESH_TOKEN_COOKIE,
+      refreshToken,
+      REFRESH_TOKEN_COOKIE_CONFIG,
+    );
+    response.cookie(
+      ACCESS_TOKEN_COOKIE,
+      accessToken,
+      ACCESS_TOKEN_COOKIE_CONFIG,
+    );
 
     return data;
   }
@@ -57,18 +66,15 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
     @Req() request: RequestWithCookies,
   ) {
-    const { refreshToken } = request.cookies;
+    const cookies = request.cookies as Record<string, string | undefined>;
+    const refreshToken = cookies[REFRESH_TOKEN_COOKIE];
 
     if (!refreshToken) {
       throw new UnauthorizedException();
     }
 
-    response.clearCookie('refreshToken', {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: false,
-      path: '/',
-    });
+    response.clearCookie(REFRESH_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE_CONFIG);
+    response.clearCookie(ACCESS_TOKEN_COOKIE, ACCESS_TOKEN_COOKIE_CONFIG);
 
     return this.auth.logout(refreshToken);
   }
@@ -78,21 +84,29 @@ export class AuthController {
     @Req() request: RequestWithCookies,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const { refreshToken } = request.cookies;
+    const cookies = request.cookies as Record<string, string | undefined>;
+    const refreshToken = cookies[REFRESH_TOKEN_COOKIE];
 
     if (!refreshToken) {
       throw new UnauthorizedException();
     }
 
-    const { refreshToken: nextRefreshToken, ...data } =
-      await this.auth.refresh(refreshToken);
+    const {
+      refreshToken: nextRefreshToken,
+      accessToken,
+      ...data
+    } = await this.auth.refresh(refreshToken);
 
-    response.cookie('refreshToken', nextRefreshToken, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: false,
-      path: '/',
-    });
+    response.cookie(
+      REFRESH_TOKEN_COOKIE,
+      nextRefreshToken,
+      REFRESH_TOKEN_COOKIE_CONFIG,
+    );
+    response.cookie(
+      ACCESS_TOKEN_COOKIE,
+      accessToken,
+      ACCESS_TOKEN_COOKIE_CONFIG,
+    );
 
     return data;
   }

@@ -1,5 +1,6 @@
 "use client";
 
+import { isAxiosError } from "axios";
 import { useEffect } from "react";
 import { useAuthStore } from "../model/auth-store";
 import { getMe, refresh } from "../api/auth-api";
@@ -11,51 +12,42 @@ export function AuthProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { setCurrentUser, clearCurrentUser } = useAccountStore(
+  const { setCurrentUser } = useAccountStore(
     useShallow((state) => ({
       setCurrentUser: state.setCurrentUser,
-      clearCurrentUser: state.clearCurrentUser,
     })),
   );
 
-  const { accessToken, setAccessToken, clearAccessToken, setAuthInitialized } =
-    useAuthStore(
-      useShallow((state) => ({
-        accessToken: state.accessToken,
-        setAccessToken: state.setAccessToken,
-        clearAccessToken: state.clearAccessToken,
-        setAuthInitialized: state.setAuthInitialized,
-      })),
-    );
+  const { setAuthInitialized } = useAuthStore(
+    useShallow((state) => ({
+      setAuthInitialized: state.setAuthInitialized,
+    })),
+  );
 
   useEffect(() => {
-    const refreshToken = async () => {
+    const initializeAuth = async () => {
       try {
-        const data = await refresh();
-        setAccessToken(data.accessToken);
-
         const user = await getMe();
 
         setCurrentUser(user);
-      } catch {
-        clearAccessToken();
-        clearCurrentUser();
+      } catch (error) {
+        if (isAxiosError(error) && error.response?.status === 401) {
+          try {
+            await refresh();
+
+            const user = await getMe();
+            setCurrentUser(user);
+          } catch {
+            // Unauthenticated startup is a normal case.
+          }
+        }
       } finally {
         setAuthInitialized(true);
       }
     };
 
-    if (!accessToken) {
-      refreshToken();
-    }
-  }, [
-    accessToken,
-    setAccessToken,
-    clearAccessToken,
-    setAuthInitialized,
-    clearCurrentUser,
-    setCurrentUser,
-  ]);
+    void initializeAuth();
+  }, [setAuthInitialized, setCurrentUser]);
 
   return <>{children}</>;
 }
