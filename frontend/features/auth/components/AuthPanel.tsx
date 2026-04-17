@@ -9,9 +9,9 @@ import * as v from "valibot";
 import { useRouter } from "next/navigation";
 
 import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
 import { getMe, login } from "../api/auth-api";
 import type { LoginBody } from "../api/auth-api";
 import { useAccountStore } from "@/features/account/model/account-store";
