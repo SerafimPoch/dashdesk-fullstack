@@ -70,7 +70,7 @@ export class AuthController {
     const refreshToken = cookies[REFRESH_TOKEN_COOKIE];
 
     if (!refreshToken) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Wrong token');
     }
 
     response.clearCookie(REFRESH_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE_CONFIG);
@@ -88,7 +88,7 @@ export class AuthController {
     const refreshToken = cookies[REFRESH_TOKEN_COOKIE];
 
     if (!refreshToken) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Wrong token');
     }
 
     const {

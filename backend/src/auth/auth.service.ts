@@ -22,7 +22,7 @@ export class AuthService {
     const user = await this.userService.findByEmail(dto.email);
 
     if (user) {
-      throw new ConflictException();
+      throw new ConflictException('User with this email already exists');
     }
 
     const passwordHash = await argon2.hash(dto.password);
@@ -41,7 +41,7 @@ export class AuthService {
     const user = await this.userService.findByEmail(dto.email);
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     const isVerifiedPassword = await argon2.verify(
@@ -50,7 +50,7 @@ export class AuthService {
     );
 
     if (!isVerifiedPassword) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid password');
     }
 
     const payload = { sub: user.id, email: user.email };
@@ -87,7 +87,7 @@ export class AuthService {
     const user = await this.userService.findById(session.userId);
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('User does not exist');
     }
 
     const payload = {
@@ -110,7 +110,7 @@ export class AuthService {
     const session = await this.sessionService.verifyToken(refreshToken);
 
     if (!session) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('No registered session');
     }
 
     await this.sessionService.deleteSession(session.id);

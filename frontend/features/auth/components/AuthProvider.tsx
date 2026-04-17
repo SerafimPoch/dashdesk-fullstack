@@ -1,11 +1,11 @@
 "use client";
 
-import { isAxiosError } from "axios";
 import { useEffect } from "react";
 import { useAuthStore } from "../model/auth-store";
 import { getMe, refresh } from "../api/auth-api";
 import { useShallow } from "zustand/shallow";
 import { useAccountStore } from "@/features/account/model/account-store";
+import { toApiError } from "@/lib/errors/api-error";
 
 export function AuthProvider({
   children,
@@ -31,7 +31,9 @@ export function AuthProvider({
 
         setCurrentUser(user);
       } catch (error) {
-        if (isAxiosError(error) && error.response?.status === 401) {
+        const apiError = toApiError(error);
+
+        if (apiError.status === 401) {
           try {
             await refresh();
 

@@ -4,11 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Apple } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as v from "valibot";
 import { useRouter } from "next/navigation";
 
 import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
+import { toApiError } from "@/lib/errors/api-error";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -26,6 +28,7 @@ const signInSchema = v.object({
 
 export function AuthPanel() {
   const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const clearCurrentUser = useAccountStore((state) => state.clearCurrentUser);
   const setCurrentUser = useAccountStore((state) => state.setCurrentUser);
@@ -43,14 +46,17 @@ export function AuthPanel() {
   });
 
   const onSubmit = async (values: LoginBody) => {
+    setServerError(null);
+
     try {
       await login(values);
       const user = await getMe();
       setCurrentUser(user);
 
       router.push("/dashboard");
-    } catch {
+    } catch (error) {
       clearCurrentUser();
+      setServerError(toApiError(error, "Unable to sign in").message);
     }
   };
 
@@ -147,12 +153,20 @@ export function AuthPanel() {
           >
             Sign In
           </AuthSubmitButton>
+
+          {serverError ? (
+            <p className="mt-3 text-sm text-destructive">{serverError}</p>
+          ) : null}
         </form>
       </div>
 
       <p className="mt-[20px] text-center text-base leading-[19px] text-muted-foreground">
         Don&apos;t have an account?{" "}
-        <Link className="text-[var(--link)] hover:underline" href="#">
+        <Link
+          className="hover:underline"
+          href="/register"
+          style={{ color: "var(--link)" }}
+        >
           Register here
         </Link>
       </p>

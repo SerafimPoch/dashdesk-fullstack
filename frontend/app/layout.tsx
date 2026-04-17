@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Lato, Montserrat } from "next/font/google";
 import { AuthProvider } from "@/features/auth/components/AuthProvider";
+import { TanstackQueryProvider } from "./query-provider";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -30,7 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${lato.variable} ${montserrat.variable}`}>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <TanstackQueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </TanstackQueryProvider>
       </body>
     </html>
   );
