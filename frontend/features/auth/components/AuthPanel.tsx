@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { Apple } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as v from "valibot";
@@ -11,6 +9,7 @@ import { useRouter } from "next/navigation";
 
 import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
 import { toApiError } from "@/lib/errors/api-error";
+import { AppleIcon, GoogleIcon } from "@/ui/icons";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -75,13 +74,7 @@ export function AuthPanel() {
           variant="secondary"
           className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
-          <Image
-            alt=""
-            aria-hidden="true"
-            src="/google.svg"
-            width={14}
-            height={14}
-          />
+          <GoogleIcon className="h-[14px] w-[14px]" />
           <span className="ml-2 leading-[15px]">Sign in with Google</span>
         </Button>
         <Button
@@ -89,7 +82,7 @@ export function AuthPanel() {
           variant="secondary"
           className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
-          <Apple className="h-[14px] w-[11.5px]" />
+          <AppleIcon className="h-[14px] w-[11.5px]" />
           <span className="ml-2 leading-[15px]">Sign in with Apple</span>
         </Button>
       </div>

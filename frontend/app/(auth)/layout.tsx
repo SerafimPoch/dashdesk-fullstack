@@ -1,6 +1,8 @@
-import { AuthPanel } from "@/features/auth/components/AuthPanel";
-
-export default function Home() {
+export default function AuthLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <main className="min-h-screen bg-background">
       <div className="grid min-h-screen lg:grid-cols-[588px_1fr]">
@@ -9,8 +11,8 @@ export default function Home() {
             Dash.
           </p>
         </aside>
-        <section className="flex justify-center px-6 pt-16 pb-16 lg:items-start lg:justify-start lg:px-0 lg:pl-[244px] lg:pt-[260px]">
-          <AuthPanel />
+        <section className="flex justify-center px-6 pt-16 pb-16 lg:items-start lg:justify-start lg:px-0 lg:pl-[244px] lg:pt-[150px]">
+          {children}
         </section>
       </div>
     </main>

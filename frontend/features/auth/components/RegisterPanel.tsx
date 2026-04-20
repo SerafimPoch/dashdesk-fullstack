@@ -1,14 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { Apple, Check, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import * as v from "valibot";
 
 import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
+import {
+  AppleIcon,
+  CheckIcon,
+  EyeClosedIcon,
+  EyeIcon,
+  GoogleIcon,
+} from "@/ui/icons";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -130,13 +135,7 @@ export function RegisterPanel() {
           variant="secondary"
           className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
-          <Image
-            alt=""
-            aria-hidden="true"
-            src="/google.svg"
-            width={14}
-            height={14}
-          />
+          <GoogleIcon className="h-[14px] w-[14px]" />
           <span className="ml-2 leading-[15px]">Sign up with Google</span>
         </Button>
         <Button
@@ -144,7 +143,7 @@ export function RegisterPanel() {
           variant="secondary"
           className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
-          <Apple className="h-[14px] w-[11.5px]" />
+          <AppleIcon className="h-[14px] w-[11.5px] text-[#999999]" />
           <span className="ml-2 leading-[15px]">Sign up with Apple</span>
         </Button>
       </div>
@@ -235,9 +234,9 @@ export function RegisterPanel() {
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 {showPassword ? (
-                  <EyeOff className="h-5 w-5" />
+                  <EyeClosedIcon className="h-5 w-5 text-[#999999]" />
                 ) : (
-                  <Eye className="h-5 w-5" />
+                  <EyeIcon className="h-5 w-5 text-[#999999]" />
                 )}
               </button>
             </div>
@@ -269,9 +268,9 @@ export function RegisterPanel() {
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
               >
                 {showConfirmPassword ? (
-                  <EyeOff className="h-5 w-5" />
+                  <EyeClosedIcon className="h-5 w-5 text-[#999999]" />
                 ) : (
-                  <Eye className="h-5 w-5" />
+                  <EyeIcon className="h-5 w-5 text-[#999999]" />
                 )}
               </button>
             </div>
@@ -290,7 +289,9 @@ export function RegisterPanel() {
                 {...register("agreement")}
               />
               <span className="mt-0.5 flex h-4 w-4 items-center justify-center rounded-[3px] bg-primary text-primary-foreground">
-                {agreementChecked ? <Check className="h-3.5 w-3.5" /> : null}
+                {agreementChecked ? (
+                  <CheckIcon className="h-[7px] w-[9px] text-primary-foreground" />
+                ) : null}
               </span>
               <span className="text-base leading-[19px] text-muted-foreground">
                 I agree the{" "}
