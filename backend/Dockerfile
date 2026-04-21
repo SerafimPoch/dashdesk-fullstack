@@ -3,7 +3,6 @@ ARG NODE_VERSION=24.14.0
 
 FROM node:${NODE_VERSION}-alpine AS base
 WORKDIR /app
-ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dashdesk?schema=public
 RUN corepack enable && corepack prepare yarn@1.22.18 --activate
 
 FROM base AS deps

@@ -1,3 +1,5 @@
-export default async function DashboardPage() {
-  return <p>Dashboard page</p>;
+import { DashboardSummaryCards } from "@/features/dashboard/components/DashboardSummaryCards";
+
+export default function DashboardPage() {
+  return <DashboardSummaryCards />;
 }

@@ -1,4 +1,4 @@
-import { ensureAuthenticated } from "@/features/auth/server/ensure-authenticated";
+import { ensureAuthenticated } from "@/features/auth/ensure-authenticated.server";
 import { Sidebar } from "./_components/Sidebar";
 import { TopBar } from "./_components/TopBar";
 

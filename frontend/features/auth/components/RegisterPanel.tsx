@@ -17,8 +17,8 @@ import {
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { signUp } from "../api/auth-api";
-import type { SignUpBody } from "../api/auth-api";
+import { signUp } from "../auth.api";
+import type { SignUpBody } from "../auth.api";
 
 interface RegisterFormValues {
   firstName: string;

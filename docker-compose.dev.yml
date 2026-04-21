@@ -1,20 +1,4 @@
 services:
-  postgres:
-    image: postgres:17-alpine
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: dashdesk
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d dashdesk"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   backend:
     build:
       context: ./backend
@@ -25,13 +9,9 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/dashdesk?schema=public
       NODE_ENV: development
       PORT: 4000
     command: sh -c "yarn install --frozen-lockfile && yarn prisma generate && yarn start:dev"
-    depends_on:
-      postgres:
-        condition: service_healthy
     volumes:
       - ./backend:/app
       - backend_node_modules:/app/node_modules
@@ -59,4 +39,3 @@ volumes:
   backend_node_modules:
   frontend_node_modules:
   frontend_next:
-  postgres_data:

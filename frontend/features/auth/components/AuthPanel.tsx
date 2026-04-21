@@ -13,9 +13,9 @@ import { AppleIcon, GoogleIcon } from "@/ui/icons";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { getMe, login } from "../api/auth-api";
-import type { LoginBody } from "../api/auth-api";
-import { useAccountStore } from "@/features/account/model/account-store";
+import { getMe, login } from "../auth.api";
+import type { LoginBody } from "../auth.api";
+import { useAccountStore } from "@/features/account/account.store";
 
 const signInSchema = v.object({
   email: v.pipe(v.string(), v.email("Enter a valid email address")),
