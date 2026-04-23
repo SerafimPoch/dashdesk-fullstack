@@ -1,7 +1,11 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DashboardService } from './dashboard.service';
 import { DashboardSummaryDto } from './dto/dashboard-summary.dto';
+import {
+  DashboardActivitiesDto,
+  DashboardActivitiesQueryDto,
+} from './dto/dashboard-activities.dto';
 
 @Controller('dashboard')
 export class DashboardController {
@@ -11,6 +15,16 @@ export class DashboardController {
   @Get('summary')
   async summary(): Promise<DashboardSummaryDto> {
     const data = await this.dashboard.summary();
+
+    return data;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('activities')
+  activities(
+    @Query() query: DashboardActivitiesQueryDto,
+  ): DashboardActivitiesDto {
+    const data = this.dashboard.activities(query);
 
     return data;
   }

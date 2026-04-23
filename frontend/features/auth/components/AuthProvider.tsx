@@ -5,7 +5,7 @@ import { useAuthStore } from "../auth.store";
 import { getMe, refresh } from "../auth.api";
 import { useShallow } from "zustand/shallow";
 import { useAccountStore } from "@/features/account/account.store";
-import { toApiError } from "@/lib/errors/api-error";
+import { toApiError } from "@/lib/api-error";
 
 export function AuthProvider({
   children,

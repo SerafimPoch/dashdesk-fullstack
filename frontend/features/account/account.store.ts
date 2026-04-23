@@ -1,9 +1,9 @@
 import { create } from "zustand";
 
-type User = {
+interface User {
   id: string;
   email: string;
-};
+}
 
 interface AccountState {
   currentUser: User | null;

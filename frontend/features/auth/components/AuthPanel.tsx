@@ -8,7 +8,7 @@ import * as v from "valibot";
 import { useRouter } from "next/navigation";
 
 import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
-import { toApiError } from "@/lib/errors/api-error";
+import { toApiError } from "@/lib/api-error";
 import { AppleIcon, GoogleIcon } from "@/ui/icons";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-type ApiError = Error & {
+interface ApiError extends Error {
   status?: number;
   details?: unknown;
-};
+}
 
 function getResponseMessage(data: unknown): string | undefined {
   if (typeof data !== "object" || data === null) {

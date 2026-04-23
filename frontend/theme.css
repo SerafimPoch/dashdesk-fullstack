@@ -16,7 +16,13 @@
   --destructive: #dc2626;
   --border: #e2e2e2;
   --input: #eaeaea;
-  --ring: #9ac3df;
+  --ring: #7ea2c2;
   --link: #346bd4;
+  --chart-guest: #e9a0a0;
+  --chart-user: #9bdd7c;
+  --chart-grid: #f5f5f5;
+  --schedule-item-green: #9bdd7c;
+  --schedule-item-purple: #6972c3;
+  --schedule-item-foreground: #666666;
   --radius: 0.625rem;
 }

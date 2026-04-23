@@ -13,13 +13,13 @@ import { SummaryCard } from "./SummaryCard";
 import { useQuery } from "@tanstack/react-query";
 import { getSummary } from "../dashboard.api";
 
-type SummaryCardConfig = {
+interface SummaryCardConfig {
   key: keyof DashboardSummary;
   title: string;
   backgroundClassName: string;
   icon: ReactNode;
   format: (value: number) => string;
-};
+}
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 const currencyFormatter = new Intl.NumberFormat("en-US", {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toApiError } from "@/lib/errors/api-error";
+import { toApiError } from "@/lib/api-error";
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,

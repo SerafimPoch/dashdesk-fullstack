@@ -30,7 +30,7 @@ export function Sidebar() {
             <Link
               key={item.label}
               href="#"
-              className="flex items-center gap-[15px] text-primary-foreground/85 transition-opacity hover:opacity-100"
+              className="flex items-center gap-[15px] text-primary-foreground transition-opacity hover:opacity-100"
             >
               <Icon className="h-5 w-5 shrink-0" size={20} />
               <span
@@ -46,7 +46,7 @@ export function Sidebar() {
           );
         })}
       </nav>
-      <div className="mt-16 flex flex-col gap-3 text-sm leading-[17px] text-primary-foreground/85 lg:mt-auto">
+      <div className="mt-16 flex flex-col gap-3 text-sm leading-[17px] text-primary-foreground lg:mt-auto">
         <Link href="#" className="w-fit transition-opacity hover:opacity-100">
           Help
         </Link>

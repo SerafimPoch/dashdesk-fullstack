@@ -20,16 +20,16 @@ import {
   REFRESH_TOKEN_COOKIE_CONFIG,
 } from './auth-cookie';
 
-type AuthenticatedRequest = Request & {
+interface AuthenticatedRequest extends Request {
   user: {
     id: string;
     email: string;
   };
-};
+}
 
-type RequestWithCookies = Request & {
+interface RequestWithCookies extends Request {
   cookies: Record<string, string | undefined>;
-};
+}
 
 @Controller('auth')
 export class AuthController {
@@ -66,7 +66,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
     @Req() request: RequestWithCookies,
   ) {
-    const cookies = request.cookies as Record<string, string | undefined>;
+    const cookies = request.cookies;
     const refreshToken = cookies[REFRESH_TOKEN_COOKIE];
 
     if (!refreshToken) {
@@ -84,7 +84,7 @@ export class AuthController {
     @Req() request: RequestWithCookies,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const cookies = request.cookies as Record<string, string | undefined>;
+    const cookies = request.cookies;
     const refreshToken = cookies[REFRESH_TOKEN_COOKIE];
 
     if (!refreshToken) {

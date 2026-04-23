@@ -2,9 +2,9 @@ import * as React from "react";
 import { SearchIcon } from "@/ui/icons";
 import { cn } from "@/lib/utils";
 
-type SearchInputProps = React.ComponentProps<"input"> & {
+interface SearchInputProps extends React.ComponentProps<"input"> {
   containerClassName?: string;
-};
+}
 
 export function SearchInput({
   className,
@@ -15,10 +15,7 @@ export function SearchInput({
 }: SearchInputProps) {
   return (
     <div
-      className={cn(
-        "relative h-[30px] w-[180px] shrink-0",
-        containerClassName,
-      )}
+      className={cn("relative h-[30px] w-[180px] shrink-0", containerClassName)}
     >
       <input
         type={type}
