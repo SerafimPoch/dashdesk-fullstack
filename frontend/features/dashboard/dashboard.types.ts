@@ -1,13 +1,20 @@
-export type DashboardActivitiesSeries = {
+interface DashboardActivitiesSeries {
   key: "guest" | "user";
   label: string;
   values: number[];
-};
+}
 
-export type DashboardActivitiesPeriod =
-  | "last-4-weeks"
-  | "last-8-weeks"
-  | "last-12-weeks";
+interface DashboardTopProductItem {
+  key: "basic-tees" | "custom-short-pants" | "super-hoodies";
+  name: string;
+  percentage: number;
+}
+
+export enum DashboardPeriod {
+  LAST_4_WEEKS = "last-4-weeks",
+  LAST_8_WEEKS = "last-8-weeks",
+  LAST_12_WEEKS = "last-12-weeks",
+}
 
 export interface DashboardSummary {
   totalRevenue: number;
@@ -16,13 +23,19 @@ export interface DashboardSummary {
   totalUsers: number;
 }
 
-export interface DashboardActivitiesParams {
-  period?: DashboardActivitiesPeriod;
+export interface DashboardPeriodParams {
+  period?: DashboardPeriod;
 }
 
 export interface DashboardActivities {
-  period: "last-4-weeks" | "last-8-weeks" | "last-12-weeks";
+  period: DashboardPeriod;
   periodLabel: string;
   labels: string[];
   series: DashboardActivitiesSeries[];
+}
+
+export interface DashboardTopProducts {
+  period: DashboardPeriod;
+  periodLabel: string;
+  items: DashboardTopProductItem[];
 }

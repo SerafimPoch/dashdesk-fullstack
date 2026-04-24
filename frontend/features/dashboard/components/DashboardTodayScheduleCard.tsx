@@ -17,7 +17,7 @@ const scheduleItems = [
 
 export function DashboardTodayScheduleCard() {
   return (
-    <section className="max-w-[480px] rounded-[24px] bg-white px-[31px] pt-[30px] pb-[34px]">
+    <section className="h-[256px] w-full overflow-hidden rounded-[24px] bg-white px-[31px] pt-[30px] pb-[28px]">
       <div className="flex items-start justify-between gap-6">
         <h2 className="font-heading text-[24px] leading-[29px] font-bold text-foreground">
           Today&apos;s schedule
@@ -42,11 +42,11 @@ export function DashboardTodayScheduleCard() {
           </svg>
         </div>
       </div>
-      <div className="mt-[28px] space-y-[13px]">
+      <div className="mt-[28px] space-y-[10px]">
         {scheduleItems.map((item) => (
           <article key={item.id} className="flex items-start gap-[13px]">
             <span
-              className="mt-1 h-[66px] w-[5px] shrink-0 rounded-full"
+              className="mt-1 h-[62px] w-[5px] shrink-0 rounded-full"
               style={{ backgroundColor: item.accentColor }}
               aria-hidden="true"
             />

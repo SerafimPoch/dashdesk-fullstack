@@ -6,6 +6,10 @@ import {
   DashboardActivitiesDto,
   DashboardActivitiesQueryDto,
 } from './dto/dashboard-activities.dto';
+import {
+  DashboardTopProductsDto,
+  DashboardTopProductsQueryDto,
+} from './dto/dashboard-top-products.dto';
 
 @Controller('dashboard')
 export class DashboardController {
@@ -25,6 +29,16 @@ export class DashboardController {
     @Query() query: DashboardActivitiesQueryDto,
   ): DashboardActivitiesDto {
     const data = this.dashboard.activities(query);
+
+    return data;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('top-products')
+  topProducts(
+    @Query() query: DashboardTopProductsQueryDto,
+  ): DashboardTopProductsDto {
+    const data = this.dashboard.topProducts(query);
 
     return data;
   }

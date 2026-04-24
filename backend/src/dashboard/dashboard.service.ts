@@ -6,6 +6,11 @@ import {
   DashboardActivitiesPeriod,
   DashboardActivitiesQueryDto,
 } from './dto/dashboard-activities.dto';
+import {
+  DashboardTopProductsDto,
+  DashboardTopProductsPeriod,
+  DashboardTopProductsQueryDto,
+} from './dto/dashboard-top-products.dto';
 
 @Injectable()
 export class DashboardService {
@@ -77,6 +82,78 @@ export class DashboardService {
           key: 'user',
           label: 'User',
           values: [420, 150, 450, 180],
+        },
+      ],
+    };
+  }
+
+  topProducts(query: DashboardTopProductsQueryDto): DashboardTopProductsDto {
+    if (query.period === DashboardTopProductsPeriod.LAST_12_WEEKS) {
+      return {
+        period: DashboardTopProductsPeriod.LAST_12_WEEKS,
+        periodLabel: 'May - June 2021',
+        items: [
+          {
+            key: 'basic-tees',
+            name: 'Basic Tees',
+            percentage: 10,
+          },
+          {
+            key: 'custom-short-pants',
+            name: 'Custom Short Pants',
+            percentage: 20,
+          },
+          {
+            key: 'super-hoodies',
+            name: 'Super Hoodies',
+            percentage: 70,
+          },
+        ],
+      };
+    }
+
+    if (query.period === DashboardTopProductsPeriod.LAST_8_WEEKS) {
+      return {
+        period: DashboardTopProductsPeriod.LAST_8_WEEKS,
+        periodLabel: 'May - June 2022',
+        items: [
+          {
+            key: 'basic-tees',
+            name: 'Basic Tees',
+            percentage: 40,
+          },
+          {
+            key: 'custom-short-pants',
+            name: 'Custom Short Pants',
+            percentage: 30,
+          },
+          {
+            key: 'super-hoodies',
+            name: 'Super Hoodies',
+            percentage: 30,
+          },
+        ],
+      };
+    }
+
+    return {
+      period: DashboardTopProductsPeriod.LAST_4_WEEKS,
+      periodLabel: 'May - June 2023',
+      items: [
+        {
+          key: 'basic-tees',
+          name: 'Basic Tees',
+          percentage: 10,
+        },
+        {
+          key: 'custom-short-pants',
+          name: 'Custom Short Pants',
+          percentage: 70,
+        },
+        {
+          key: 'super-hoodies',
+          name: 'Super Hoodies',
+          percentage: 20,
         },
       ],
     };
