@@ -9,22 +9,19 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
+import { AuthenticatedUser, AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import {
   ACCESS_TOKEN_COOKIE,
   ACCESS_TOKEN_COOKIE_CONFIG,
   REFRESH_TOKEN_COOKIE,
   REFRESH_TOKEN_COOKIE_CONFIG,
 } from './auth-cookie';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 interface AuthenticatedRequest extends Request {
-  user: {
-    id: string;
-    email: string;
-  };
+  user: AuthenticatedUser;
 }
 
 interface RequestWithCookies extends Request {
@@ -40,12 +37,15 @@ export class AuthController {
     return this.auth.register(dto);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(
-    @Body() dto: LoginDto,
     @Res({ passthrough: true }) response: Response,
+    @Req() req: AuthenticatedRequest,
   ) {
-    const { refreshToken, accessToken, ...data } = await this.auth.login(dto);
+    const { refreshToken, accessToken, ...data } = await this.auth.login(
+      req.user,
+    );
 
     response.cookie(
       REFRESH_TOKEN_COOKIE,

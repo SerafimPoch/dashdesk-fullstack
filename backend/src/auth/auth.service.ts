@@ -4,11 +4,15 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import argon2 from 'argon2';
 import { SessionsService } from '../sessions/sessions.service';
 import { UsersService } from '../users/users.service';
+
+export interface AuthenticatedUser {
+  id: string;
+  email: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -37,22 +41,7 @@ export class AuthService {
     };
   }
 
-  async login(dto: LoginDto) {
-    const user = await this.userService.findByEmail(dto.email);
-
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-
-    const isVerifiedPassword = await argon2.verify(
-      user.passwordHash,
-      dto.password,
-    );
-
-    if (!isVerifiedPassword) {
-      throw new UnauthorizedException('Invalid password');
-    }
-
+  async login(user: AuthenticatedUser) {
     const payload = { sub: user.id, email: user.email };
     const accessToken = this.jwtService.sign(payload);
     const sessionId = crypto.randomUUID();
@@ -114,5 +103,24 @@ export class AuthService {
     }
 
     await this.sessionService.deleteSession(session.id);
+  }
+
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findByEmail(email);
+
+    if (!user) {
+      return null;
+    }
+
+    const isVerifiedPassword = await argon2.verify(user.passwordHash, password);
+
+    if (!isVerifiedPassword) {
+      return null;
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+    };
   }
 }
