@@ -3,6 +3,7 @@
 import Link from "next/link";
 import {
   DashboardIcon,
+  LogoutIcon,
   SchedulesIcon,
   SettingsIcon,
   TransactionsIcon,
@@ -45,6 +46,15 @@ export function Sidebar() {
             </Link>
           );
         })}
+        <button
+          type="button"
+          className="flex cursor-pointer items-center gap-[15px] text-left text-primary-foreground transition-opacity hover:opacity-100"
+        >
+          <LogoutIcon className="h-5 w-5 shrink-0" size={20} />
+          <span className="text-[18px] leading-[22px] font-normal">
+            Logout
+          </span>
+        </button>
       </nav>
       <div className="mt-16 flex flex-col gap-3 text-sm leading-[17px] text-primary-foreground lg:mt-auto">
         <Link href="#" className="w-fit transition-opacity hover:opacity-100">

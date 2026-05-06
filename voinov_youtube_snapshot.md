@@ -1,0 +1,40 @@
+- generic [ref=e73]:
+  - banner [ref=e75]:
+    - generic [ref=e77]:
+      - generic [ref=e78]:
+        - button "Guide" [ref=e80] [cursor=pointer]
+        - generic [ref=e84]
+        - button "Skip navigation" [ref=e95] [cursor=pointer]
+      - generic [ref=e100]:
+        - search [ref=e101]
+        - generic [ref=e111]
+      - generic [ref=e122]:
+        - button "Settings" [ref=e127] [cursor=pointer]
+        - link "Sign in" [ref=e133] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Den%26next%3Dhttps%253A%252F%252Fwww.youtube.com%252Fwatch%253Fv%253DSjDN75HqSUg&hl=en&ec=65620
+  - main [ref=e143]:
+    - generic [ref=e144]:
+      - generic [ref=e146]:
+        - complementary [ref=e153]
+        - generic [ref=e164]
+      - generic [ref=e815]:
+        - generic [ref=e817] [cursor=pointer]
+        - generic [ref=e850] [cursor=pointer]
+        - generic [ref=e886] [cursor=pointer]
+        - generic [ref=e929] [cursor=pointer]
+        - generic [ref=e972] [cursor=pointer]
+        - generic [ref=e1008] [cursor=pointer]
+        - generic [ref=e1041] [cursor=pointer]
+        - generic [ref=e1079] [cursor=pointer]
+        - generic [ref=e1117] [cursor=pointer]
+        - generic [ref=e1150] [cursor=pointer]
+        - generic [ref=e1193] [cursor=pointer]
+        - generic [ref=e1226] [cursor=pointer]
+        - generic [ref=e1269] [cursor=pointer]
+        - generic [ref=e1312] [cursor=pointer]
+        - generic [ref=e1345] [cursor=pointer]
+        - generic [ref=e1378] [cursor=pointer]
+        - generic [ref=e1411] [cursor=pointer]
+        - generic [ref=e1444] [cursor=pointer]
+        - generic [ref=e1482] [cursor=pointer]
+        - generic [ref=e1525] [cursor=pointer]

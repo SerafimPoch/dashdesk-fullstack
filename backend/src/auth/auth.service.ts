@@ -8,10 +8,15 @@ import { RegisterDto } from './dto/register.dto';
 import argon2 from 'argon2';
 import { SessionsService } from '../sessions/sessions.service';
 import { UsersService } from '../users/users.service';
+import { AccountProvider } from '@prisma/client';
+import { AccountsService } from '../accounts/accounts.service';
+import type { AuthenticatedUser, AuthResult } from './auth.types';
 
-export interface AuthenticatedUser {
-  id: string;
+interface OAuthProfile {
+  provider: AccountProvider;
+  providerAccountId: string;
   email: string;
+  name: string;
 }
 
 @Injectable()
@@ -20,6 +25,7 @@ export class AuthService {
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
     private readonly sessionService: SessionsService,
+    private readonly accountService: AccountsService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -41,7 +47,7 @@ export class AuthService {
     };
   }
 
-  async login(user: AuthenticatedUser) {
+  async login(user: AuthenticatedUser): Promise<AuthResult> {
     const payload = { sub: user.id, email: user.email };
     const accessToken = this.jwtService.sign(payload);
     const sessionId = crypto.randomUUID();
@@ -64,6 +70,46 @@ export class AuthService {
         email: user.email,
       },
     };
+  }
+
+  async loginWithOAuthProfile({
+    provider,
+    providerAccountId,
+    email,
+    name,
+  }: OAuthProfile): Promise<AuthResult> {
+    const account = await this.accountService.findByProviderAccount(
+      provider,
+      providerAccountId,
+    );
+
+    if (account) {
+      return this.login(account.user);
+    }
+
+    const user = await this.userService.findByEmail(email);
+
+    if (user) {
+      await this.accountService.createOAuthAccount({
+        userId: user.id,
+        provider,
+        providerAccountId,
+        email,
+      });
+
+      return this.login(user);
+    }
+
+    const createdUser = await this.userService.createOAuthUser({ name, email });
+
+    await this.accountService.createOAuthAccount({
+      userId: createdUser.id,
+      provider,
+      providerAccountId,
+      email,
+    });
+
+    return this.login(createdUser);
   }
 
   async refresh(rT: string) {
@@ -108,7 +154,7 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
 
-    if (!user) {
+    if (!user || !user.passwordHash) {
       return null;
     }
 

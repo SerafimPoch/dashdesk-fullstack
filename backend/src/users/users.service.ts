@@ -7,9 +7,29 @@ interface UserData {
   passwordHash: string;
 }
 
+interface OAuthUserData {
+  name: string;
+  email: string;
+}
+
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async createOAuthUser(OAuthUserData: OAuthUserData) {
+    const id = crypto.randomUUID();
+
+    const user = await this.prisma.user.create({
+      data: {
+        id,
+        email: OAuthUserData.email,
+        name: OAuthUserData.name,
+        passwordHash: null,
+      },
+    });
+
+    return user;
+  }
 
   async create(userData: UserData) {
     const id = crypto.randomUUID();

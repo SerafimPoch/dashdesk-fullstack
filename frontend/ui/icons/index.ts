@@ -3,6 +3,7 @@ export { TransactionsIcon } from "./TransactionsIcon";
 export { SchedulesIcon } from "./SchedulesIcon";
 export { UsersIcon } from "./UsersIcon";
 export { SettingsIcon } from "./SettingsIcon";
+export { LogoutIcon } from "./LogoutIcon";
 export { TotalRevenueIcon } from "./TotalRevenueIcon";
 export { TotalTransactionsIcon } from "./TotalTransactionsIcon";
 export { TotalLikesIcon } from "./TotalLikesIcon";

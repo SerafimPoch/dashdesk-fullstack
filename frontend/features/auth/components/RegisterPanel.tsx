@@ -17,7 +17,7 @@ import {
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { signUp } from "../auth.api";
+import { getGoogleAuthUrl, signUp } from "../auth.api";
 import type { SignUpBody } from "../auth.api";
 
 interface RegisterFormValues {
@@ -120,6 +120,10 @@ export function RegisterPanel() {
     }
   };
 
+  const handleGoogleSignUp = () => {
+    window.location.href = getGoogleAuthUrl();
+  };
+
   return (
     <div className="w-[385px] max-w-full">
       <h1 className="font-heading text-[36px] leading-[44px] font-bold text-foreground">
@@ -133,7 +137,8 @@ export function RegisterPanel() {
         <Button
           type="button"
           variant="secondary"
-          className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          className="h-[30px] w-[180px] cursor-pointer rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          onClick={handleGoogleSignUp}
         >
           <GoogleIcon className="h-[14px] w-[14px]" />
           <span className="ml-2 leading-[15px]">Sign up with Google</span>
@@ -141,7 +146,7 @@ export function RegisterPanel() {
         <Button
           type="button"
           variant="secondary"
-          className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          className="h-[30px] w-[180px] cursor-pointer rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
           <AppleIcon className="h-[14px] w-[11.5px] text-[#999999]" />
           <span className="ml-2 leading-[15px]">Sign up with Apple</span>

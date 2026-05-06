@@ -8,6 +8,8 @@ import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './strategies/jwt-strategy';
 import { SessionsModule } from '../sessions/sessions.module';
 import { LocalStrategy } from './strategies/local.strategy';
+import { AccountsModule } from '../accounts/accounts.module';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 const jwtSecret = process.env.JWT_ACCESS_SECRET;
 
@@ -19,6 +21,7 @@ if (!jwtSecret) {
   imports: [
     SessionsModule,
     UsersModule,
+    AccountsModule,
     PassportModule.register({ session: false }),
     JwtModule.register({
       secret: jwtSecret,
@@ -27,7 +30,7 @@ if (!jwtSecret) {
       },
     }),
   ],
-  providers: [AuthService, JwtStrategy, LocalStrategy],
+  providers: [AuthService, JwtStrategy, LocalStrategy, GoogleStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

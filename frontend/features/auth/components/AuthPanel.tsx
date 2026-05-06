@@ -13,7 +13,7 @@ import { AppleIcon, GoogleIcon } from "@/ui/icons";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { getMe, login } from "../auth.api";
+import { getGoogleAuthUrl, getMe, login } from "../auth.api";
 import type { LoginBody } from "../auth.api";
 import { useAccountStore } from "@/features/account/account.store";
 
@@ -59,6 +59,10 @@ export function AuthPanel() {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = getGoogleAuthUrl();
+  };
+
   return (
     <div className="w-[385px] max-w-full">
       <h1 className="font-heading text-[36px] leading-[44px] font-bold text-foreground">
@@ -72,7 +76,8 @@ export function AuthPanel() {
         <Button
           type="button"
           variant="secondary"
-          className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          className="h-[30px] w-[180px] cursor-pointer rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          onClick={handleGoogleLogin}
         >
           <GoogleIcon className="h-[14px] w-[14px]" />
           <span className="ml-2 leading-[15px]">Sign in with Google</span>
@@ -80,7 +85,7 @@ export function AuthPanel() {
         <Button
           type="button"
           variant="secondary"
-          className="h-[30px] w-[180px] rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          className="h-[30px] w-[180px] cursor-pointer rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
           <AppleIcon className="h-[14px] w-[11.5px]" />
           <span className="ml-2 leading-[15px]">Sign in with Apple</span>

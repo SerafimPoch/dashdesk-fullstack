@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
-import { AuthenticatedUser, AuthService } from './auth.service';
+import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import {
@@ -19,9 +19,15 @@ import {
   REFRESH_TOKEN_COOKIE_CONFIG,
 } from './auth-cookie';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
+import type { AuthenticatedUser, AuthResult } from './auth.types';
 
 interface AuthenticatedRequest extends Request {
   user: AuthenticatedUser;
+}
+
+interface OAuthRequest extends Request {
+  user: AuthResult;
 }
 
 interface RequestWithCookies extends Request {
@@ -115,5 +121,31 @@ export class AuthController {
   @Get('me')
   me(@Req() req: AuthenticatedRequest) {
     return req.user;
+  }
+
+  @UseGuards(GoogleAuthGuard)
+  @Get('google')
+  googleAuth() {}
+
+  @UseGuards(GoogleAuthGuard)
+  @Get('google/callback')
+  googleCallback(
+    @Req() req: OAuthRequest,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { refreshToken, accessToken } = req.user;
+
+    response.cookie(
+      REFRESH_TOKEN_COOKIE,
+      refreshToken,
+      REFRESH_TOKEN_COOKIE_CONFIG,
+    );
+    response.cookie(
+      ACCESS_TOKEN_COOKIE,
+      accessToken,
+      ACCESS_TOKEN_COOKIE_CONFIG,
+    );
+
+    return response.redirect(`${process.env.FRONTEND_URL}/dashboard`);
   }
 }
