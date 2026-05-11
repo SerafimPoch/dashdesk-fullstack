@@ -10,8 +10,7 @@ import {
 import type { DashboardSummary } from "../dashboard.types";
 import { DashboardSummaryCardsSkeleton } from "./DashboardSummaryCardsSkeleton";
 import { SummaryCard } from "./SummaryCard";
-import { useQuery } from "@tanstack/react-query";
-import { getSummary } from "../dashboard.api";
+import { useDashboardSummaryQuery } from "../dashboard.queries";
 
 interface SummaryCardConfig {
   key: keyof DashboardSummary;
@@ -60,11 +59,7 @@ const cardConfigs: SummaryCardConfig[] = [
 ];
 
 export function DashboardSummaryCards() {
-  const { data, isFetching } = useQuery({
-    queryKey: ["dashboard-summary"],
-    queryFn: getSummary,
-  });
-
+  const { data, isFetching } = useDashboardSummaryQuery();
   if (isFetching) {
     return <DashboardSummaryCardsSkeleton />;
   }

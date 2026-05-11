@@ -8,14 +8,18 @@ import * as v from "valibot";
 import { useRouter } from "next/navigation";
 
 import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
-import { toApiError } from "@/lib/api-error";
-import { AppleIcon, GoogleIcon } from "@/ui/icons";
+import { GoogleIcon, MicrosoftIcon } from "@/ui/icons";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { getGoogleAuthUrl, getMe, login } from "../auth.api";
-import type { LoginBody } from "../auth.api";
+import {
+  getGoogleAuthUrl,
+  getMe,
+  getMicrosoftAuthUrl,
+  login,
+} from "../auth.api";
 import { useAccountStore } from "@/features/account/account.store";
+import type { LoginBody } from "../auth.types";
 
 const signInSchema = v.object({
   email: v.pipe(v.string(), v.email("Enter a valid email address")),
@@ -53,14 +57,17 @@ export function AuthPanel() {
       setCurrentUser(user);
 
       router.push("/dashboard");
-    } catch (error) {
+    } catch {
       clearCurrentUser();
-      setServerError(toApiError(error, "Unable to sign in").message);
     }
   };
 
   const handleGoogleLogin = () => {
     window.location.href = getGoogleAuthUrl();
+  };
+
+  const handleMicrosoftLogin = () => {
+    window.location.href = getMicrosoftAuthUrl();
   };
 
   return (
@@ -72,23 +79,24 @@ export function AuthPanel() {
         Sign in to your account
       </p>
 
-      <div className="mt-[26px] grid grid-cols-2 gap-[25px]">
+      <div className="mt-[26px] grid grid-cols-2 gap-[10px]">
         <Button
           type="button"
           variant="secondary"
-          className="h-[30px] w-[180px] cursor-pointer rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          className="h-[30px] w-[190px] cursor-pointer gap-2 rounded-[10px] border-0 bg-secondary px-0 text-[14px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
           onClick={handleGoogleLogin}
         >
           <GoogleIcon className="h-[14px] w-[14px]" />
-          <span className="ml-2 leading-[15px]">Sign in with Google</span>
+          <span className="leading-[17px]">Sign in with Google</span>
         </Button>
         <Button
+          onClick={handleMicrosoftLogin}
           type="button"
           variant="secondary"
-          className="h-[30px] w-[180px] cursor-pointer rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          className="h-[30px] w-[190px] cursor-pointer gap-2 rounded-[10px] border-0 bg-secondary px-0 text-[14px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
-          <AppleIcon className="h-[14px] w-[11.5px]" />
-          <span className="ml-2 leading-[15px]">Sign in with Apple</span>
+          <MicrosoftIcon className="h-[14px] w-[14px]" />
+          <span className="leading-[17px]">Sign in with Microsoft</span>
         </Button>
       </div>
       <div className="mt-[25px] rounded-[20px] bg-card px-[30px] py-[30px]">

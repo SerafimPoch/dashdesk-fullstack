@@ -1547,6 +1547,13 @@
     "@types/passport" "*"
     "@types/passport-strategy" "*"
 
+"@types/passport-microsoft@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@types/passport-microsoft/-/passport-microsoft-2.1.1.tgz#c0b849d91811b4ba3a08b71aa5b2d9a043099968"
+  integrity sha512-mtxO0nUt8PSAQd1MPD4JZXacYRx9MXYCTFjKyBEarmCJYyJlKHMwBRYltBEi/zpvC6xYX0LgK1AFXp+hQI+DEw==
+  dependencies:
+    "@types/passport-oauth2" "*"
+
 "@types/passport-oauth2@*":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@types/passport-oauth2/-/passport-oauth2-1.8.0.tgz#68830666b9dad0fbf68c704721f56346d2c72ba0"
@@ -4737,7 +4744,14 @@ passport-local@^1.0.0:
   dependencies:
     passport-strategy "1.x.x"
 
-passport-oauth2@1.x.x:
+passport-microsoft@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/passport-microsoft/-/passport-microsoft-2.1.0.tgz#7ff80219fd9fd3f572f0900d7dd3f477e37d66cb"
+  integrity sha512-7bOcjEmZCHg5qD55iHaMD/mgBxPtXLbqAwmKox5IsqOSEU50WJk5nQKK4lxKdBHLZ0hf+gzrFgDsTybJP18/JA==
+  dependencies:
+    passport-oauth2 "1.8.0"
+
+passport-oauth2@1.8.0, passport-oauth2@1.x.x:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/passport-oauth2/-/passport-oauth2-1.8.0.tgz#55725771d160f09bbb191828d5e3d559eee079c8"
   integrity sha512-cjsQbOrXIDE4P8nNb3FQRCCmJJ/utnFKEz2NX209f7KOHPoX18gF7gBzBbLLsj2/je4KrgiwLLGjf0lm9rtTBA==

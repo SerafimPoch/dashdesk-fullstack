@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Pie, PieChart } from "recharts";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/ui/spinner";
-import { getTopProducts } from "../dashboard.api";
 import type { DashboardTopProducts } from "../dashboard.types";
 import { DashboardPeriod } from "../dashboard.types";
+import { useDashboardTopProductsQuery } from "../dashboard.queries";
 
 const DEFAULT_PERIOD = DashboardPeriod.LAST_4_WEEKS;
 
@@ -32,11 +31,7 @@ export function DashboardTopProductsCard() {
   const [selectedPeriod, setSelectedPeriod] =
     useState<DashboardPeriod>(DEFAULT_PERIOD);
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["dashboard-top-products", selectedPeriod],
-    queryFn: () => getTopProducts({ period: selectedPeriod }),
-    placeholderData: (previousData) => previousData,
-  });
+  const { data, isFetching } = useDashboardTopProductsQuery(selectedPeriod);
 
   if (!data && !isFetching) {
     return null;

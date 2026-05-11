@@ -1,15 +1,5 @@
 import { apiClient } from "@/lib/api-client";
-
-export interface LoginBody {
-  email: string;
-  password: string;
-}
-
-export interface SignUpBody {
-  name: string;
-  email: string;
-  password: string;
-}
+import { LoginBody, SignUpBody } from "./auth.types";
 
 interface LoginResponse {
   message: string;
@@ -27,10 +17,16 @@ interface MeResponse {
   email: string;
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function login(body: LoginBody): Promise<LoginResponse> {
   const response = await apiClient.post<LoginResponse>("/auth/login", body);
 
   return response.data;
+}
+
+export async function logout() {
+  await apiClient.post<LoginResponse>("/auth/logout");
 }
 
 export async function getMe(): Promise<MeResponse> {
@@ -50,8 +46,9 @@ export async function signUp(body: SignUpBody): Promise<SignUpResponse> {
 }
 
 export function getGoogleAuthUrl(): string {
-  const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
+  return `${API_BASE_URL?.replace(/\/$/, "")}/auth/oauth/google`;
+}
 
-  return `${apiBaseUrl.replace(/\/$/, "")}/auth/google`;
+export function getMicrosoftAuthUrl(): string {
+  return `${API_BASE_URL?.replace(/\/$/, "")}/auth/oauth/microsoft`;
 }

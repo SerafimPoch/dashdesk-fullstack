@@ -11,7 +11,7 @@ export { TotalUsersIcon } from "./TotalUsersIcon";
 export { BellIcon } from "./BellIcon";
 export { SearchIcon } from "./SearchIcon";
 export { GoogleIcon } from "./GoogleIcon";
-export { AppleIcon } from "./AppleIcon";
+export { MicrosoftIcon } from "./MicrosoftIcon";
 export { CheckIcon } from "./CheckIcon";
 export { EyeIcon } from "./EyeIcon";
 export { EyeClosedIcon } from "./EyeClosedIcon";

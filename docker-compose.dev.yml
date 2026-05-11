@@ -11,6 +11,7 @@ services:
     environment:
       NODE_ENV: development
       PORT: 4000
+      CHOKIDAR_USEPOLLING: "true"
     command: sh -c "yarn install --frozen-lockfile && yarn prisma generate && yarn start:dev"
     volumes:
       - ./backend:/app
@@ -27,7 +28,9 @@ services:
       NODE_ENV: development
       NEXT_PUBLIC_API_URL: http://localhost:4000/api
       BACKEND_API_URL: http://backend:4000/api
-    command: sh -c "yarn install --frozen-lockfile && yarn dev"
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+    command: sh -c "yarn install --frozen-lockfile && yarn dev --hostname 0.0.0.0"
     depends_on:
       - backend
     volumes:

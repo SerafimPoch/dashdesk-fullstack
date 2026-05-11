@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import {
   CartesianGrid,
   Line,
@@ -12,8 +11,8 @@ import {
 } from "recharts";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/ui/spinner";
-import { getActivities } from "../dashboard.api";
 import { DashboardPeriod } from "../dashboard.types";
+import { useDashboardActivitiesQuery } from "../dashboard.queries";
 
 const DEFAULT_PERIOD = DashboardPeriod.LAST_4_WEEKS;
 const Y_AXIS_TICKS = [0, 100, 200, 300, 400, 500];
@@ -42,11 +41,7 @@ export function DashboardActivitiesChart() {
   const [selectedPeriod, setSelectedPeriod] =
     useState<DashboardPeriod>(DEFAULT_PERIOD);
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["dashboard-activities", selectedPeriod],
-    queryFn: () => getActivities({ period: selectedPeriod }),
-    placeholderData: (previousData) => previousData,
-  });
+  const { data, isFetching } = useDashboardActivitiesQuery(selectedPeriod);
 
   const chartData = useMemo<ChartRow[]>(() => {
     if (!data) {
@@ -183,7 +178,10 @@ export function DashboardActivitiesChart() {
 
       {isFetching && (
         <div className="absolute inset-x-[31px] top-[112px] bottom-[22px] flex items-center justify-center rounded-[20px] bg-white/70 backdrop-blur-[2px]">
-          <Spinner className="h-11 w-11 text-primary" label="Loading activities" />
+          <Spinner
+            className="h-11 w-11 text-primary"
+            label="Loading activities"
+          />
         </div>
       )}
     </section>

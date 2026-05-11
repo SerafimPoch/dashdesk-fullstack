@@ -8,17 +8,18 @@ import * as v from "valibot";
 
 import { AuthSubmitButton } from "@/features/auth/components/AuthSubmitButton";
 import {
-  AppleIcon,
   CheckIcon,
   EyeClosedIcon,
   EyeIcon,
   GoogleIcon,
+  MicrosoftIcon,
 } from "@/ui/icons";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { getGoogleAuthUrl, signUp } from "../auth.api";
-import type { SignUpBody } from "../auth.api";
+import { getGoogleAuthUrl, login, signUp } from "../auth.api";
+import { useRouter } from "next/navigation";
+import type { SignUpBody } from "../auth.types";
 
 interface RegisterFormValues {
   firstName: string;
@@ -56,6 +57,8 @@ const registerSchema = v.object({
 });
 
 export function RegisterPanel() {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -113,6 +116,9 @@ export function RegisterPanel() {
 
     try {
       await signUp(payload);
+      await login({ email: payload.email, password: payload.password });
+      router.push("/dashboard");
+      router.refresh();
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "An error occurred";
@@ -133,23 +139,23 @@ export function RegisterPanel() {
         Create an account to use dashboard
       </p>
 
-      <div className="mt-[26px] grid grid-cols-2 gap-[25px]">
+      <div className="mt-[26px] grid grid-cols-2 gap-[10px]">
         <Button
           type="button"
           variant="secondary"
-          className="h-[30px] w-[180px] cursor-pointer rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          className="h-[30px] w-[190px] cursor-pointer gap-2 rounded-[10px] border-0 bg-secondary px-0 text-[14px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
           onClick={handleGoogleSignUp}
         >
           <GoogleIcon className="h-[14px] w-[14px]" />
-          <span className="ml-2 leading-[15px]">Sign up with Google</span>
+          <span className="leading-[17px]">Sign up with Google</span>
         </Button>
         <Button
           type="button"
           variant="secondary"
-          className="h-[30px] w-[180px] cursor-pointer rounded-[10px] border-0 bg-secondary px-0 text-[12px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
+          className="h-[30px] w-[190px] cursor-pointer gap-2 rounded-[10px] border-0 bg-secondary px-0 text-[14px] font-heading font-normal text-muted-foreground shadow-none hover:bg-secondary"
         >
-          <AppleIcon className="h-[14px] w-[11.5px] text-[#999999]" />
-          <span className="ml-2 leading-[15px]">Sign up with Apple</span>
+          <MicrosoftIcon className="h-[14px] w-[14px]" />
+          <span className="leading-[17px]">Sign up with Microsoft</span>
         </Button>
       </div>
 

@@ -3,13 +3,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import type { StringValue } from 'ms';
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
+import { AuthController } from './controllers/auth.controller';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './strategies/jwt-strategy';
 import { SessionsModule } from '../sessions/sessions.module';
 import { LocalStrategy } from './strategies/local.strategy';
 import { AccountsModule } from '../accounts/accounts.module';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { MicrosoftStrategy } from './strategies/microsoft.strategy';
+import { OAuthController } from './controllers/oauth.controller';
 
 const jwtSecret = process.env.JWT_ACCESS_SECRET;
 
@@ -30,7 +32,13 @@ if (!jwtSecret) {
       },
     }),
   ],
-  providers: [AuthService, JwtStrategy, LocalStrategy, GoogleStrategy],
-  controllers: [AuthController],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    LocalStrategy,
+    GoogleStrategy,
+    MicrosoftStrategy,
+  ],
+  controllers: [AuthController, OAuthController],
 })
 export class AuthModule {}
