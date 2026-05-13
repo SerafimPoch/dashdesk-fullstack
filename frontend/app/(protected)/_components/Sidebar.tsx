@@ -14,11 +14,11 @@ import { logout } from "@/features/auth/auth.api";
 import { useAccountStore } from "@/features/account/account.store";
 
 const navItems = [
-  { label: "Dashboard", icon: DashboardIcon },
-  { label: "Transactions", icon: TransactionsIcon },
-  { label: "Schedules", icon: SchedulesIcon },
-  { label: "Users", icon: UsersIcon },
-  { label: "Settings", icon: SettingsIcon },
+  { label: "Dashboard", icon: DashboardIcon, path: "/dashboard" },
+  { label: "Transactions", icon: TransactionsIcon, path: "/transaction" },
+  { label: "Schedules", icon: SchedulesIcon, path: "/schedules" },
+  { label: "Users", icon: UsersIcon, path: "/users" },
+  { label: "Settings", icon: SettingsIcon, path: "/settings" },
 ] as const;
 
 export function Sidebar() {
@@ -46,7 +46,7 @@ export function Sidebar() {
           return (
             <Link
               key={item.label}
-              href="#"
+              href={item.path}
               className="flex items-center gap-[15px] text-primary-foreground transition-opacity hover:opacity-100"
             >
               <Icon className="h-5 w-5 shrink-0" size={20} />

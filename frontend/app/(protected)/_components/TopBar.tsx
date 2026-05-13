@@ -1,18 +1,32 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { BellIcon } from "@/ui/icons";
-import { SearchInput } from "@/ui/search-input";
+import { HeaderSearchInput } from "@/ui/header-search-input";
 
 interface TopBarProps {
   title: string;
 }
 
+const pageTitles: Record<string, string> = {
+  "/dashboard": "Dashboard",
+  "/transaction": "Transactions",
+  "/schedule": "Schedules",
+  "/users": "Users",
+  "/settings": "Settings",
+};
+
 export function TopBar({ title }: TopBarProps) {
+  const pathname = usePathname();
+  const resolvedTitle = pageTitles[pathname] ?? title;
+
   return (
     <header className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
       <h1 className="pt-[2px] font-heading text-[24px] leading-[29px] font-bold text-foreground">
-        {title}
+        {resolvedTitle}
       </h1>
       <div className="flex items-center justify-between gap-4 lg:justify-end lg:gap-[17px]">
-        <SearchInput />
+        <HeaderSearchInput />
         <button
           type="button"
           className="flex h-5 w-[18px] items-center justify-center text-foreground transition-opacity hover:opacity-75"

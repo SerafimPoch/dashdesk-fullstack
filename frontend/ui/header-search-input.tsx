@@ -1,18 +1,18 @@
 import * as React from "react";
-import { SearchIcon } from "@/ui/icons";
 import { cn } from "@/lib/utils";
+import { SearchIcon } from "@/ui/icons";
 
-interface SearchInputProps extends React.ComponentProps<"input"> {
+interface HeaderSearchInputProps extends React.ComponentProps<"input"> {
   containerClassName?: string;
 }
 
-export function SearchInput({
+export function HeaderSearchInput({
   className,
   containerClassName,
   placeholder = "Search...",
   type = "text",
   ...props
-}: SearchInputProps) {
+}: HeaderSearchInputProps) {
   return (
     <div
       className={cn("relative h-[30px] w-[180px] shrink-0", containerClassName)}

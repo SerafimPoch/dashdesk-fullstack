@@ -10,6 +10,8 @@ export { TotalLikesIcon } from "./TotalLikesIcon";
 export { TotalUsersIcon } from "./TotalUsersIcon";
 export { BellIcon } from "./BellIcon";
 export { SearchIcon } from "./SearchIcon";
+export { FilterIcon } from "./FilterIcon";
+export { PlusIcon } from "./PlusIcon";
 export { GoogleIcon } from "./GoogleIcon";
 export { MicrosoftIcon } from "./MicrosoftIcon";
 export { CheckIcon } from "./CheckIcon";
