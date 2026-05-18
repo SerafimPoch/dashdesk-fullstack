@@ -11,7 +11,7 @@ interface TopBarProps {
 const pageTitles: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/transaction": "Transactions",
-  "/schedule": "Schedules",
+  "/schedules": "Schedules",
   "/users": "Users",
   "/settings": "Settings",
 };

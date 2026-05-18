@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterDto } from './dto/register.dto';
+import { RegisterDto } from './register.dto';
 import argon2 from 'argon2';
 import { SessionsService } from '../sessions/sessions.service';
 import { UsersService } from '../users/users.service';

@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AuthService } from '../auth.service';
-import { RegisterDto } from '../dto/register.dto';
+import { RegisterDto } from '../register.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import {
   ACCESS_TOKEN_COOKIE,

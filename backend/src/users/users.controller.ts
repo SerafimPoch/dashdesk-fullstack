@@ -1,5 +1,5 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { GetUsersQueryDto } from './dto/users.dto';
+import { GetUsersQueryDto } from './users.dto';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
