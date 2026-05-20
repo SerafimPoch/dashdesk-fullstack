@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/ui/button";
-import { FilterIcon, PlusIcon } from "@/ui/icons";
+import { AddButton } from "@/ui/add-button";
+import { FilterButton } from "@/ui/filter-button";
 import { TableSearchInput } from "@/ui/table-search-input";
 import { useDebounced } from "@/lib/hooks";
 import { type ChangeEvent, useState } from "react";
@@ -36,21 +36,8 @@ export function UsersRecordsPanel() {
         </h2>
         <div className="flex flex-wrap items-center gap-[15px]">
           <TableSearchInput value={search} onChange={handleSearchChange} />
-          <Button
-            type="button"
-            variant="outline"
-            className="h-[30px] w-[84px] cursor-pointer gap-[5px] rounded-[10px] border-[#B0B0B0] bg-card px-0 font-heading text-[14px] leading-[17px] font-bold text-muted-foreground hover:bg-card hover:text-muted-foreground"
-          >
-            <FilterIcon className="h-[14px] w-[18px]" size={18} />
-            Filter
-          </Button>
-          <Button
-            type="button"
-            className="h-[30px] w-[80px] cursor-pointer gap-[5px] rounded-[10px] bg-primary px-0 font-heading text-[14px] leading-[17px] font-bold text-primary-foreground hover:bg-primary/90"
-          >
-            <PlusIcon className="h-5 w-5" size={20} />
-            Add
-          </Button>
+          <FilterButton />
+          <AddButton />
         </div>
       </div>
       <UsersRecordsTable

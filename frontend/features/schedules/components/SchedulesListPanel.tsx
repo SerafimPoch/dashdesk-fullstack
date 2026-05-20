@@ -2,8 +2,7 @@
 
 import { format } from "date-fns";
 
-import { Button } from "@/ui/button";
-import { PlusIcon } from "@/ui/icons";
+import { AddButton } from "@/ui/add-button";
 import { Spinner } from "@/ui/spinner";
 import { useSchedulesListQuery } from "../schedules.queries";
 
@@ -35,13 +34,11 @@ export function SchedulesListPanel({ selectedDate }: SchedulesListPanelProps) {
         <h2 className="font-heading text-[18px] leading-[22px] font-bold text-card-foreground">
           Schedules
         </h2>
-        <Button
-          type="button"
+        <AddButton
           className="h-[32px] w-[80px] cursor-pointer gap-[6px] rounded-[10px] bg-primary px-0 font-heading text-[14px] leading-[17px] font-bold text-primary-foreground hover:bg-primary/90"
-        >
-          <PlusIcon size={17} />
-          Add
-        </Button>
+          iconClassName="h-[17px] w-[17px]"
+          iconSize={17}
+        />
       </div>
 
       <div className="mt-[45px] flex flex-col gap-[25px]">
