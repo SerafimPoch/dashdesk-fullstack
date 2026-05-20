@@ -57,8 +57,12 @@ export function AuthPanel() {
       setCurrentUser(user);
 
       router.push("/dashboard");
-    } catch {
+      router.refresh();
+    } catch (error) {
       clearCurrentUser();
+      setServerError(
+        error instanceof Error ? error.message : "Unable to sign in",
+      );
     }
   };
 

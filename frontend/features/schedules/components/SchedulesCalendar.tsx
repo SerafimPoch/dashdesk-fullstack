@@ -57,7 +57,9 @@ export function SchedulesCalendar({
   selectedDate,
   onSelectedDateChange,
 }: SchedulesCalendarProps) {
-  const [visibleMonth, setVisibleMonth] = useState(() => new Date(2021, 5, 1));
+  const [visibleMonth, setVisibleMonth] = useState(() =>
+    startOfMonth(selectedDate),
+  );
   const calendarDays = useMemo(() => {
     const firstVisibleDay = startOfWeek(startOfMonth(visibleMonth), {
       weekStartsOn: 0,

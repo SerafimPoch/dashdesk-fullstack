@@ -5,7 +5,7 @@ import { SchedulesCalendar } from "./SchedulesCalendar";
 import { SchedulesListPanel } from "./SchedulesListPanel";
 
 export function SchedulesPageContent() {
-  const [selectedDate, setSelectedDate] = useState(() => new Date(2021, 5, 5));
+  const [selectedDate, setSelectedDate] = useState(() => new Date());
 
   return (
     <div className="grid w-full gap-[24px] xl:grid-cols-[minmax(0,640px)_320px] xl:gap-[36px]">

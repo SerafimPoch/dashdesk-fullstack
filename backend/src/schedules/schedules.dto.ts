@@ -1,8 +1,17 @@
-import { IsOptional, Matches } from 'class-validator';
+import { ScheduleAccent } from '@prisma/client';
+import { Transform } from 'class-transformer';
+import {
+  IsEnum,
+  IsISO8601,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
-export enum ScheduleAccent {
-  GREEN = 'green',
-  PURPLE = 'purple',
+function trimString(value: unknown): unknown {
+  return typeof value === 'string' ? value.trim() : value;
 }
 
 export class GetSchedulesQueryDto {
@@ -11,13 +20,34 @@ export class GetSchedulesQueryDto {
   date?: string;
 }
 
+export class CreateScheduleDto {
+  @Transform(({ value }: { value: unknown }) => trimString(value))
+  @IsString()
+  @MinLength(2)
+  @MaxLength(100)
+  title!: string;
+
+  @IsISO8601()
+  startsAt!: string;
+
+  @IsISO8601()
+  endsAt!: string;
+
+  @Transform(({ value }: { value: unknown }) => trimString(value))
+  @IsString()
+  @MinLength(2)
+  @MaxLength(120)
+  location!: string;
+
+  @IsEnum(ScheduleAccent)
+  accent!: ScheduleAccent;
+}
+
 export class ScheduleItemDto {
   id!: string;
   title!: string;
-  date!: string;
-  startsAt!: string;
-  endsAt!: string;
-  time!: string;
+  startsAt!: Date;
+  endsAt!: Date;
   location!: string;
   accent!: ScheduleAccent;
 }

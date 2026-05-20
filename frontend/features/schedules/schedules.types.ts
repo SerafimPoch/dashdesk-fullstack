@@ -1,9 +1,10 @@
-type ScheduleAccent = "green" | "purple";
+export type ScheduleAccent = "GREEN" | "PURPLE";
 
-interface ScheduleItem {
+export interface ScheduleItem {
   id: string;
   title: string;
-  time: string;
+  startsAt: string;
+  endsAt: string;
   location: string;
   accent: ScheduleAccent;
 }
@@ -14,4 +15,12 @@ export interface SchedulesListParams {
 
 export interface SchedulesListResponse {
   items: ScheduleItem[];
+}
+
+export interface CreateScheduleBody {
+  title: string;
+  startsAt: string;
+  endsAt: string;
+  location: string;
+  accent: ScheduleAccent;
 }
