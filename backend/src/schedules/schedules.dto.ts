@@ -43,15 +43,15 @@ export class CreateScheduleDto {
   accent!: ScheduleAccent;
 }
 
-export class ScheduleItemDto {
-  id!: string;
-  title!: string;
-  startsAt!: Date;
-  endsAt!: Date;
-  location!: string;
-  accent!: ScheduleAccent;
+export interface ScheduleItemDto {
+  id: string;
+  title: string;
+  startsAt: Date;
+  endsAt: Date;
+  location: string;
+  accent: ScheduleAccent;
 }
 
-export class SchedulesListDto {
-  items!: ScheduleItemDto[];
+export interface SchedulesListDto {
+  items: ScheduleItemDto[];
 }

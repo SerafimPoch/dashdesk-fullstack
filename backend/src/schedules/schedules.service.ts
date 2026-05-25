@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import type { Prisma, PrismaClient } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import {
+import type {
   CreateScheduleDto,
   GetSchedulesQueryDto,
   ScheduleItemDto,

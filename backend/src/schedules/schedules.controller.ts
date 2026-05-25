@@ -10,12 +10,8 @@ import {
 import type { Request } from 'express';
 import type { AuthenticatedUser } from '../auth/auth.types';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import {
-  CreateScheduleDto,
-  GetSchedulesQueryDto,
-  ScheduleItemDto,
-  SchedulesListDto,
-} from './schedules.dto';
+import { CreateScheduleDto, GetSchedulesQueryDto } from './schedules.dto';
+import type { ScheduleItemDto, SchedulesListDto } from './schedules.dto';
 import { SchedulesService } from './schedules.service';
 
 interface AuthenticatedRequest extends Request {
