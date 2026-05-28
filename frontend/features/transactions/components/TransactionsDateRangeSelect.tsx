@@ -12,7 +12,7 @@ interface TransactionsDateRangeSelectProps {
   onValueChange: (value: string) => void;
 }
 
-export function formatTransactionsDateRange({
+function formatTransactionsDateRange({
   from,
   to,
 }: Pick<TransactionDateRangeOption, "from" | "to">) {

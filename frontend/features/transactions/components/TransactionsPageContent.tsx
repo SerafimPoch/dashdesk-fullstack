@@ -104,9 +104,7 @@ export function TransactionsPageContent() {
       await createTransactionMutation.mutateAsync(payload);
       setPage(1);
       setIsCreateOpen(false);
-    } catch {
-      // The mutation error is rendered in the open form.
-    }
+    } catch {}
   };
 
   return (

@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { GetUsersQueryDto } from './users.dto';
+import { CreateUserDto, GetUsersQueryDto, UserItemDto } from './users.dto';
 import { Prisma } from '@prisma/client';
+import argon2 from 'argon2';
 
 interface UserData {
   name: string;
@@ -103,6 +104,28 @@ export class UsersService {
         total,
         totalPages: Math.ceil(total / limit),
       },
+    };
+  }
+
+  async createLocalUser(dto: CreateUserDto): Promise<UserItemDto> {
+    const existingUser = await this.findByEmail(dto.email);
+
+    if (existingUser) {
+      throw new ConflictException('User with this email already exists');
+    }
+
+    const passwordHash = await argon2.hash(dto.password);
+    const user = await this.create({
+      name: dto.name,
+      email: dto.email,
+      passwordHash,
+    });
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
     };
   }
 }

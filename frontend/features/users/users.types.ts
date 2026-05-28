@@ -4,6 +4,12 @@ export interface GetUsersParams {
   search?: string;
 }
 
+export interface CreateUserBody {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export interface UserListItem {
   id: string;
   name: string;
