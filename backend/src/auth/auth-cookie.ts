@@ -1,4 +1,5 @@
 import { CookieOptions } from 'express';
+import { REFRESH_SESSION_TTL_MS } from '../sessions/sessions.service';
 
 export const ACCESS_TOKEN_COOKIE = 'accessToken';
 export const REFRESH_TOKEN_COOKIE = 'refreshToken';
@@ -18,5 +19,5 @@ export const ACCESS_TOKEN_COOKIE_CONFIG: CookieOptions = {
 export const REFRESH_TOKEN_COOKIE_CONFIG: CookieOptions = {
   ...BASE_COOKIE_CONFIG,
   path: '/api/auth',
-  maxAge: 1000 * 60 * 60 * 24 * 7,
+  maxAge: REFRESH_SESSION_TTL_MS,
 };

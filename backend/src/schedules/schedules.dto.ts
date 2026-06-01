@@ -1,5 +1,7 @@
 import { ScheduleAccent } from '@prisma/client';
 import { Transform } from 'class-transformer';
+import { DATE_ONLY_PATTERN } from '../common/date/date-only';
+import { trimString } from '../common/transforms/string';
 import {
   IsEnum,
   IsISO8601,
@@ -10,13 +12,9 @@ import {
   MinLength,
 } from 'class-validator';
 
-function trimString(value: unknown): unknown {
-  return typeof value === 'string' ? value.trim() : value;
-}
-
 export class GetSchedulesQueryDto {
   @IsOptional()
-  @Matches(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/)
+  @Matches(DATE_ONLY_PATTERN)
   date?: string;
 }
 

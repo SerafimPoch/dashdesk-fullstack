@@ -15,6 +15,12 @@ COPY . .
 RUN yarn prisma generate \
   && yarn build
 
+FROM deps AS test
+ENV NODE_ENV=test
+COPY . .
+RUN yarn prisma generate \
+  && yarn verify
+
 FROM base AS prod-deps
 COPY package.json yarn.lock ./
 RUN yarn install --production --frozen-lockfile \

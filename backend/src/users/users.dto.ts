@@ -1,5 +1,9 @@
 import { Transform, Type } from 'class-transformer';
 import {
+  emptyStringToUndefined,
+  trimString,
+} from '../common/transforms/string';
+import {
   IsEmail,
   IsInt,
   IsNotEmpty,
@@ -10,10 +14,6 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-
-function trimString(value: unknown): unknown {
-  return typeof value === 'string' ? value.trim() : value;
-}
 
 export class GetUsersQueryDto {
   @IsOptional()
@@ -30,15 +30,7 @@ export class GetUsersQueryDto {
   limit = 10;
 
   @IsOptional()
-  @Transform(({ value }) => {
-    if (typeof value !== 'string') {
-      return undefined;
-    }
-
-    const search = value.trim();
-
-    return search.length > 0 ? search : undefined;
-  })
+  @Transform(({ value }: { value: unknown }) => emptyStringToUndefined(value))
   @IsString()
   @MaxLength(100)
   search?: string;

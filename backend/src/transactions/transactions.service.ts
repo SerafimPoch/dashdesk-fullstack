@@ -1,5 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import {
+  formatDateOnly,
+  getUtcCalendarMonthRange,
+  getUtcDayRange,
+  parseDateOnly,
+} from '../common/date/date-only';
 import { PrismaService } from '../prisma/prisma.service';
 import type {
   CreateTransactionDto,
@@ -40,53 +46,6 @@ type TransactionDateRangeRecord = Prisma.TransactionDateRangeGetPayload<{
   select: typeof transactionDateRangeSelect;
 }>;
 
-const DAY_IN_MS = 24 * 60 * 60 * 1000;
-const DATE_ONLY_PATTERN = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-
-function formatDateOnly(date: Date) {
-  return date.toISOString().slice(0, 10);
-}
-
-function parseDateOnly(value: unknown): Date {
-  if (typeof value !== 'string' || !DATE_ONLY_PATTERN.test(value)) {
-    throw new BadRequestException('Date must use the YYYY-MM-DD format');
-  }
-
-  const date = new Date(`${value}T00:00:00.000Z`);
-
-  if (Number.isNaN(date.getTime()) || formatDateOnly(date) !== value) {
-    throw new BadRequestException('Date must be a valid calendar date');
-  }
-
-  return date;
-}
-
-function getCalendarMonthRange(date: unknown): {
-  startsAt: Date;
-  endsAt: Date;
-} {
-  const transactionDate = parseDateOnly(date);
-  const startsAt = new Date(
-    Date.UTC(
-      transactionDate.getUTCFullYear(),
-      transactionDate.getUTCMonth(),
-      1,
-    ),
-  );
-  const nextMonthStartsAt = new Date(
-    Date.UTC(
-      transactionDate.getUTCFullYear(),
-      transactionDate.getUTCMonth() + 1,
-      1,
-    ),
-  );
-
-  return {
-    startsAt,
-    endsAt: new Date(nextMonthStartsAt.getTime() - DAY_IN_MS),
-  };
-}
-
 function formatTransaction(
   transaction: TransactionListRecord,
 ): TransactionItemDto {
@@ -118,12 +77,19 @@ function getTransactionDateRange(
     return {};
   }
 
-  const toDate = to ? parseDateOnly(to) : null;
+  const fromDate = from ? parseDateOnly(from) : null;
+  const toDateRange = to ? getUtcDayRange(to) : null;
+
+  if (fromDate && toDateRange && fromDate >= toDateRange.endsBefore) {
+    throw new BadRequestException(
+      'From date must be less than or equal to to date',
+    );
+  }
 
   return {
     date: {
-      ...(from ? { gte: parseDateOnly(from) } : {}),
-      ...(toDate ? { lt: new Date(toDate.getTime() + DAY_IN_MS) } : {}),
+      ...(fromDate ? { gte: fromDate } : {}),
+      ...(toDateRange ? { lt: toDateRange.endsBefore } : {}),
     },
   };
 }
@@ -229,7 +195,7 @@ export class TransactionsService {
     dto: CreateTransactionDto,
   ): Promise<TransactionItemDto> {
     const date = parseDateOnly(dto.date);
-    const { startsAt, endsAt } = getCalendarMonthRange(dto.date);
+    const { startsAt, endsAt } = getUtcCalendarMonthRange(dto.date);
 
     const [transaction] = await this.prisma.$transaction([
       this.prisma.transaction.create({

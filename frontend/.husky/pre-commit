@@ -6,6 +6,6 @@ if [ -f frontend/package.json ]; then
 fi
 
 if [ -f backend/package.json ]; then
-  echo "husky: running backend lint"
-  (cd backend && yarn lint)
+  echo "husky: running backend verify"
+  (cd backend && yarn verify)
 fi

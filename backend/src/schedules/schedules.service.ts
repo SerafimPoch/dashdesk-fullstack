@@ -1,5 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import type { Prisma, PrismaClient } from '@prisma/client';
+import { getUtcDayRange } from '../common/date/date-only';
 import { PrismaService } from '../prisma/prisma.service';
 import type {
   CreateScheduleDto,
@@ -7,14 +8,6 @@ import type {
   ScheduleItemDto,
   SchedulesListDto,
 } from './schedules.dto';
-
-function getDateRange(date: string): { start: Date; end: Date } {
-  const start = new Date(`${date}T00:00:00.000Z`);
-  const end = new Date(start);
-  end.setUTCDate(end.getUTCDate() + 1);
-
-  return { start, end };
-}
 
 @Injectable()
 export class SchedulesService {
@@ -36,14 +29,14 @@ export class SchedulesService {
     userId: string,
     query: GetSchedulesQueryDto,
   ): Promise<SchedulesListDto> {
-    const dateFilter = query.date ? getDateRange(query.date) : null;
+    const dateFilter = query.date ? getUtcDayRange(query.date) : null;
     const where: Prisma.ScheduleWhereInput = {
       userId,
       ...(dateFilter
         ? {
             startsAt: {
-              gte: dateFilter.start,
-              lt: dateFilter.end,
+              gte: dateFilter.startsAt,
+              lt: dateFilter.endsBefore,
             },
           }
         : {}),

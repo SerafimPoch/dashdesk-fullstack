@@ -2,11 +2,16 @@ import argon2 from 'argon2';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
+export const REFRESH_SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 7;
+
 interface Session {
   sessionId: string;
   userId: string;
   refreshToken: string;
-  expiresAt: Date;
+}
+
+function getRefreshSessionExpiresAt() {
+  return new Date(Date.now() + REFRESH_SESSION_TTL_MS);
 }
 
 @Injectable()
@@ -15,12 +20,13 @@ export class SessionsService {
 
   async createSession(data: Session) {
     const tokenHash = await argon2.hash(data.refreshToken);
+    const expiresAt = getRefreshSessionExpiresAt();
 
     await this.prisma.session.create({
       data: {
         id: data.sessionId,
         userId: data.userId,
-        expiresAt: data.expiresAt,
+        expiresAt,
         tokenHash,
       },
     });
@@ -61,7 +67,7 @@ export class SessionsService {
   }
 
   async rotateSession(sessionId: string, refreshToken: string) {
-    const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
+    const expiresAt = getRefreshSessionExpiresAt();
     const tokenHash = await argon2.hash(refreshToken);
 
     await this.prisma.session.update({

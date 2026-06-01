@@ -1,4 +1,9 @@
 import { Transform, Type } from 'class-transformer';
+import { DATE_ONLY_PATTERN } from '../common/date/date-only';
+import {
+  emptyStringToUndefined,
+  trimString,
+} from '../common/transforms/string';
 import {
   IsEmail,
   IsInt,
@@ -11,12 +16,6 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-
-const DATE_ONLY_PATTERN = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-
-function trimString(value: unknown): unknown {
-  return typeof value === 'string' ? value.trim() : value;
-}
 
 export class GetTransactionsQueryDto {
   @IsOptional()
@@ -33,15 +32,7 @@ export class GetTransactionsQueryDto {
   limit = 10;
 
   @IsOptional()
-  @Transform(({ value }: { value: unknown }) => {
-    if (typeof value !== 'string') {
-      return undefined;
-    }
-
-    const search = value.trim();
-
-    return search.length > 0 ? search : undefined;
-  })
+  @Transform(({ value }: { value: unknown }) => emptyStringToUndefined(value))
   @IsString()
   @MaxLength(100)
   search?: string;
@@ -57,15 +48,7 @@ export class GetTransactionsQueryDto {
   to?: string;
 
   @IsOptional()
-  @Transform(({ value }: { value: unknown }) => {
-    if (typeof value !== 'string') {
-      return undefined;
-    }
-
-    const product = value.trim();
-
-    return product.length > 0 ? product : undefined;
-  })
+  @Transform(({ value }: { value: unknown }) => emptyStringToUndefined(value))
   @IsString()
   @MaxLength(120)
   product?: string;

@@ -38,8 +38,9 @@ export class AuthService {
     const passwordHash = await argon2.hash(dto.password);
 
     const createdUser = await this.userService.create({
+      name: dto.name,
+      email: dto.email,
       passwordHash,
-      ...dto,
     });
 
     return {
@@ -53,13 +54,11 @@ export class AuthService {
     const sessionId = crypto.randomUUID();
     const secret = crypto.randomUUID();
     const refreshToken = `${sessionId}.${secret}`;
-    const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
 
     await this.sessionService.createSession({
       sessionId,
       userId: user.id,
       refreshToken,
-      expiresAt,
     });
 
     return {
