@@ -30,7 +30,7 @@ services:
       BACKEND_API_URL: http://backend:4000/api
       WATCHPACK_POLLING: "true"
       CHOKIDAR_USEPOLLING: "true"
-    command: sh -c "yarn install --frozen-lockfile && yarn dev --hostname 0.0.0.0"
+    command: sh -c "yarn install --frozen-lockfile && rm -rf .next/dev && yarn dev --hostname 0.0.0.0"
     depends_on:
       - backend
     volumes:

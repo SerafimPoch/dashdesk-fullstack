@@ -17,12 +17,13 @@
     "lint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "typecheck": "tsc --noEmit --project tsconfig.json",
     "verify": "yarn lint:check && yarn typecheck && yarn test && yarn build",
-    "test": "jest",
+    "test": "yarn test:unit && yarn test:e2e",
+    "test:unit": "jest",
     "test:docker": "docker build --target test -t dashdesk-backend-test .",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --testRegex \".*\\.e2e-spec\\.ts$\" --runInBand"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

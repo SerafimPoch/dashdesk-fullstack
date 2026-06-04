@@ -3,11 +3,11 @@ import { describe, expect, it, jest, afterEach } from '@jest/globals';
 import { JwtService } from '@nestjs/jwt';
 import { AccountProvider } from '@prisma/client';
 import argon2 from 'argon2';
-import { AccountsService } from '../accounts/accounts.service';
-import { SessionsService } from '../sessions/sessions.service';
-import { UsersService } from '../users/users.service';
-import { AuthService } from './auth.service';
-import type { RegisterDto } from './register.dto';
+import { AccountsService } from '../../accounts/accounts.service';
+import { SessionsService } from '../../sessions/sessions.service';
+import { UsersService } from '../../users/users.service';
+import { AuthService } from '../auth.service';
+import type { RegisterDto } from '../register.dto';
 
 type MockFn = ReturnType<typeof jest.fn>;
 
