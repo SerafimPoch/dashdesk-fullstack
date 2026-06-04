@@ -1,14 +1,14 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import type { PrismaService } from '../prisma/prisma.service';
+import type { PrismaService } from '../../prisma/prisma.service';
 import {
   DashboardActivitiesPeriod,
   DashboardActivitiesQueryDto,
-} from './dto/dashboard-activities.dto';
+} from '../dto/dashboard-activities.dto';
 import {
   DashboardTopProductsPeriod,
   DashboardTopProductsQueryDto,
-} from './dto/dashboard-top-products.dto';
-import { DashboardService } from './dashboard.service';
+} from '../dto/dashboard-top-products.dto';
+import { DashboardService } from '../dashboard.service';
 
 type PrismaMock = {
   user: {

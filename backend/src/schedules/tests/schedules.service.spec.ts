@@ -1,10 +1,10 @@
 import { BadRequestException } from '@nestjs/common';
 import { describe, expect, it, jest } from '@jest/globals';
 import { ScheduleAccent } from '@prisma/client';
-import type { PrismaService } from '../prisma/prisma.service';
-import type { CreateScheduleDto } from './schedules.dto';
-import { GetSchedulesQueryDto } from './schedules.dto';
-import { SchedulesService } from './schedules.service';
+import type { PrismaService } from '../../prisma/prisma.service';
+import type { CreateScheduleDto } from '../schedules.dto';
+import { GetSchedulesQueryDto } from '../schedules.dto';
+import { SchedulesService } from '../schedules.service';
 
 type PrismaMock = {
   schedule: {

@@ -1,9 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
 import { describe, expect, it, jest } from '@jest/globals';
-import type { PrismaService } from '../prisma/prisma.service';
-import type { CreateTransactionDto } from './transactions.dto';
-import { GetTransactionsQueryDto } from './transactions.dto';
-import { TransactionsService } from './transactions.service';
+import type { PrismaService } from '../../prisma/prisma.service';
+import type { CreateTransactionDto } from '../transactions.dto';
+import { GetTransactionsQueryDto } from '../transactions.dto';
+import { TransactionsService } from '../transactions.service';
 
 type PrismaMock = {
   transaction: {
