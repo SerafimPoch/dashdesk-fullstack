@@ -9,3 +9,8 @@ if [ -f backend/package.json ]; then
   echo "husky: running backend verify"
   (cd backend && yarn verify)
 fi
+
+if [ -f frontend/package.json ]; then
+  echo "husky: running frontend e2e"
+  (cd frontend && yarn test:e2e)
+fi
