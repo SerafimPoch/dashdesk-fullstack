@@ -20,15 +20,33 @@ datasource db {
 model User {
   id                    String                 @id @default(uuid())
   name                  String
+  firstName             String?
+  lastName              String?
   email                 String                 @unique
   passwordHash          String?
+  dateOfBirth           DateTime?              @db.Date
+  phoneNumber           String?
+  address               String?
+  twoFactorEnabled      Boolean                @default(false)
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
+  avatar                UserAvatar?
   sessions              Session[]
   accounts              Account[]
   schedules             Schedule[]
   transactions          Transaction[]
   transactionDateRanges TransactionDateRange[]
+}
+
+model UserAvatar {
+  userId    String   @id
+  mimeType  String
+  size      Int
+  data      Bytes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {

@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { SchedulesModule } from './schedules/schedules.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { TransactionsModule } from './transactions/transactions.module';
     DashboardModule,
     SchedulesModule,
     TransactionsModule,
+    SettingsModule,
   ],
   controllers: [],
   providers: [],
