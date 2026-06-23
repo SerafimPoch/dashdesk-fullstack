@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   DashboardIcon,
   LogoutIcon,
@@ -23,6 +23,7 @@ const navItems = [
 
 export function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname();
   const clearCurrentUser = useAccountStore((state) => state.clearCurrentUser);
 
   const onLogoutClick = async () => {
@@ -39,14 +40,15 @@ export function Sidebar() {
     <div className="flex h-full flex-col px-[30px] py-10 text-primary-foreground">
       <p className="font-heading text-[36px] leading-[44px] font-bold">Dash.</p>
       <nav className="mt-[68px] flex flex-col gap-[42px]">
-        {navItems.map((item, index) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = index === 0;
+          const isActive = pathname === item.path;
 
           return (
             <Link
               key={item.label}
               href={item.path}
+              aria-current={isActive ? "page" : undefined}
               className="flex items-center gap-[15px] text-primary-foreground transition-opacity hover:opacity-100"
             >
               <Icon className="h-5 w-5 shrink-0" size={20} />
